@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>914</width>
+    <height>695</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QWidget" name="widget_2" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">width:500;</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QPushButton" name="p1">
+            <property name="text">
+             <string>数据采集</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="p2">
+            <property name="text">
+             <string>运动员名单</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="p3">
+            <property name="text">
+             <string>数据查看与对比</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QStackedWidget" name="container">
+            <widget class="QWidget" name="income">
+             <widget class="QLabel" name="label">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>54</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>时间</string>
+              </property>
+             </widget>
+             <widget class="QGraphicsView" name="graphicsView">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>30</y>
+                <width>256</width>
+                <height>192</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="data">
+             <widget class="QLabel" name="label_3">
+              <property name="geometry">
+               <rect>
+                <x>170</x>
+                <y>380</y>
+                <width>54</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>数据查看</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="user">
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QWidget" name="" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>500</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>运动员姓名：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton">
+                   <property name="text">
+                    <string>搜索</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="addUserBtn">
+                   <property name="text">
+                    <string>添加运动员</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QScrollArea" name="scrollArea">
+                <property name="widgetResizable">
+                 <bool>true</bool>
+                </property>
+                <widget class="QWidget" name="scrollAreaWidgetContents">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>684</width>
+                   <height>539</height>
+                  </rect>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QTableWidget" name="tableWidget"/>
+                  </item>
+                 </layout>
+                </widget>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>914</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
