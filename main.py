@@ -27,6 +27,7 @@ plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
 
 import pages.user as user
 import utils.db as db
+import pages.record as record
 
 # 主页面信号
 class mainSignal(QObject):
@@ -42,7 +43,7 @@ class MainWindow(QMainWindow):
         self.user = user.user(self.ui)
     def show(self):
         self.ui.show()
-        self.leftClick(2)
+        self.leftClick(1)
     def register(self):
 
         # v = changePage()
@@ -60,6 +61,10 @@ class MainWindow(QMainWindow):
         # self.ui.graphicsView.setScene(graphicsScene)
         # self.ui.graphicsView.show()  # 调用show方法呈现图形
     def leftClick(self, p):
+        a = QWidget()
+        b = QVBoxLayout()
+        self.ui.data.setLayout(b)
+        b.addWidget(record.MainWindow())
         self.ui.container.setCurrentIndex(p)
     # def change
     def closeEvent(self, event):
