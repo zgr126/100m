@@ -1,6 +1,35 @@
+
+# -*-coding:utf8 -*-
+__author__ = "jermeyjone"
+__abc__ = "第一个PySide程序，创建一个窗口"
+
+import numpy as np
+
 import sys
+from PySide6.QtCore import *
+from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+from PySide6.QtGui import *
 from PySide6.QtCore import QTimer, QThread, Signal, Slot
+from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6.QtUiTools import QUiLoader
+import time
+
+
+import pages.userTable as ut
+# 主页面信号
+class mainSignal(QObject):
+    setMainPage= Signal(int)
+main_signal = mainSignal()
+
+class user(QWidget):
+    def __init__(self, ui, arg=None):
+        super(user, self).__init__(arg)
+        self.ui = ui
+        self.table = ut.TableView(ui)
+    def close_event(self, event):
+        print('exit!!!!!!')
+
 
 class TableWidget(QWidget):
     control_signal = Signal(list)
@@ -26,6 +55,7 @@ class TableWidget(QWidget):
         """
         self.table = QTableWidget(3, 5)  # 3 行 5 列的表格
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 自适应宽度
+        self.table.setHorizontalHeaderLabels(['运动员姓名', '日期', '时间', '成绩', '操作'])
         self.__layout = QVBoxLayout()
         self.__layout.addWidget(self.table)
         self.setLayout(self.__layout)
@@ -86,9 +116,36 @@ class TableWidget(QWidget):
     def showTotalPage(self):
         """返回当前总页数"""
         return int(self.totalPage.text()[1:-1])
+    def addData(self):
+        def t2(value):
+            return lambda: self.deleteUserCheck(value)
+        def t(value):
+            return lambda: self.modifyUser(value)
+        for i, v in enumerate(self.data):
+            s1 = QTableWidgetItem(v[0])
+            self.tableWidget.setItem(i,0,s1)
+            s2 = QTableWidgetItem(str(v[1]))
+            self.tableWidget.setItem(i,2,s2)
+            s3 = QTableWidgetItem(str(v[2]))
+            
+            self.tableWidget.setItem(i,3,s3)
+            s4 = QTableWidgetItem(str(v[3]))
+            self.tableWidget.setItem(i,4,s4)
+            s5 = QTableWidgetItem(str(v[4]))
+            self.tableWidget.setItem(i,1,s5)
+            btnBox = QWidget()
+            btnBoxLayout = QHBoxLayout(btnBox)
+            btn = QPushButton('修改')
+            btn2 = QPushButton('删除')
+            btnBoxLayout.setContentsMargins(0,0,0,0)
+            btnBoxLayout.addWidget(btn)
+            btnBoxLayout.addWidget(btn2)
+            btn2.clicked.connect(t2(v))
+            btn.clicked.connect(t(v))
+            self.tableWidget.setCellWidget(i,5, btnBox)
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.__init_ui()
@@ -99,8 +156,10 @@ class MainWindow(QMainWindow):
         self.table_widget = TableWidget()  # 实例化表格
         self.table_widget.setPageController(10)  # 表格设置页码控制
         self.table_widget.control_signal.connect(self.page_controller)
-        self.setCentralWidget(self.table_widget)
-    
+        # self.setCentralWidget(self.table_widget)
+        b = QVBoxLayout()
+        self.setLayout(b)
+        b.addWidget(self.table_widget) 
     def page_controller(self, signal):
         total_page = self.table_widget.showTotalPage()
         if "home" == signal[0]:
@@ -131,8 +190,19 @@ class MainWindow(QMainWindow):
         pass
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+
+
+# class FigureCanvasDemo3(FigureCanvas):
+#     def __init__(self, parent=None, width=10, height=5):
+#         fig = Figure(figsize=(width, height), tight_layout=True)
+#         FigureCanvas.__init__(self, fig)
+#         self.axes = fig.add_subplot()
+
+#         # 开始作图
+#         x = np.linspace(0, 10, 100)
+#         y = 2 * np.sin(2 * x)
+#         self.axes.plot(x, y)
+#         self.axes.set_title('样例-sin图像')
+
+#         self.axes.grid()
+#         self.draw()

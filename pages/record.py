@@ -14,9 +14,10 @@ from PySide6.QtCore import QTimer, QThread, Signal, Slot
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtUiTools import QUiLoader
 import time
-
+import utils.db as db
 
 import pages.userTable as ut
+import random
 # 主页面信号
 class mainSignal(QObject):
     setMainPage= Signal(int)
@@ -33,11 +34,13 @@ class user(QWidget):
 
 class TableWidget(QWidget):
     control_signal = Signal(list)
-
+    data = []
+    allDataLen = 0
+    currentPage = 1
     def __init__(self, *args, **kwargs):
         super(TableWidget, self).__init__(*args, **kwargs)
         self.__init_ui()
-
+        self.refrushPage()
     def __init_ui(self):
         style_sheet = """
             QTableWidget {
@@ -53,13 +56,28 @@ class TableWidget(QWidget):
                 max-width: 30px
             }
         """
-        self.table = QTableWidget(3, 5)  # 3 行 5 列的表格
+        self.table = QTableWidget(3, 4)  # 3 行 5 列的表格
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 自适应宽度
+        self.table.setHorizontalHeaderLabels(['运动员姓名', '日期', '成绩', '操作'])
         self.__layout = QVBoxLayout()
+        # 搜索框
+        self.header = QUiLoader().load('./ui/searchRecordHeader.ui')
+        self.header.pushButton.clicked.connect(self.search)
+        self.header.endDateTime.setDateTime(QDateTime.currentDateTime())
+        self.header.btn.clicked.connect(self.insertRecord)
+
+        self.__layout.addWidget(self.header)
         self.__layout.addWidget(self.table)
+        
         self.setLayout(self.__layout)
         self.setStyleSheet(style_sheet)
-
+    def search(self):
+        st = self.header.startDateTime.dateTime().toPython()
+        et = self.header.endDateTime.dateTime().toPython()
+        
+        self.currentPage = 1
+        self.refrushPage()
+        self.control_signal.emit(["home", self.currentPage])
     def setPageController(self, page):
         """自定义页码控制器"""
         control_layout = QHBoxLayout()
@@ -94,19 +112,19 @@ class TableWidget(QWidget):
 
     def __home_page(self):
         """点击首页信号"""
-        self.control_signal.emit(["home", self.curPage.text()])
+        self.control_signal.emit(["home", self.currentPage])
 
     def __pre_page(self):
         """点击上一页信号"""
-        self.control_signal.emit(["pre", self.curPage.text()])
+        self.control_signal.emit(["pre", self.currentPage])
 
     def __next_page(self):
         """点击下一页信号"""
-        self.control_signal.emit(["next", self.curPage.text()])
+        self.control_signal.emit(["next", self.currentPage])
 
     def __final_page(self):
         """尾页点击信号"""
-        self.control_signal.emit(["final", self.curPage.text()])
+        self.control_signal.emit(["final", self.currentPage])
 
     def __confirm_skip(self):
         """跳转页码确定"""
@@ -114,9 +132,61 @@ class TableWidget(QWidget):
 
     def showTotalPage(self):
         """返回当前总页数"""
-        return int(self.totalPage.text()[1:-1])
-
-
+        return self.allDataLen//10+1
+    def refrushPage(self):
+        c = db.db.cursor()
+        sql = "SELECT COUNT(*) FROM RECORD WHERE name LIKE '%{}%' AND startTime >= '{}' AND endTime <= '{}'".format(self.header.lineEdit.text(), self.header.startDateTime.dateTime().toPython(), self.header.endDateTime.dateTime().toPython()) 
+        v = c.execute(sql)
+        self.allDataLen = v.fetchone()[0]
+        sql = "SELECT name, startTime, endTime, useTime, remark, id FROM RECORD WHERE name LIKE '%{}%' AND startTime >= '{}' AND endTime <= '{}' LIMIT 10 OFFSET {}".format(self.header.lineEdit.text(), self.header.startDateTime.dateTime().toPython(), self.header.endDateTime.dateTime().toPython(), (self.currentPage-1)*10)
+        print(sql)
+        cursor = c.execute(sql)
+        self.data = c.fetchall()
+        print(self.data)
+        c.close()
+        self.makeFrom()
+        db.db.commit()
+    def makeFrom(self):
+        self.tableWidget = self.table
+        l = len(self.data)
+        self.tableWidget.setRowCount(l)
+        s = QTableWidget
+        def t2(value):
+            return lambda: self.deleteUserCheck(value)
+        def t(value):
+            return lambda: self.modifyUser(value)
+        for i, v in enumerate(self.data):
+            s1 = QTableWidgetItem(v[0])
+            self.tableWidget.setItem(i,0,s1)
+            s2 = QTableWidgetItem(str(v[1]))
+            self.tableWidget.setItem(i,1,s2)
+            s3 = QTableWidgetItem(str(v[3]))
+            self.tableWidget.setItem(i,2,s3)
+            btnBox = QWidget()
+            btnBoxLayout = QHBoxLayout(btnBox)
+            btn = QPushButton('修改')
+            btn2 = QPushButton('删除')
+            btnBoxLayout.setContentsMargins(0,0,0,0)
+            btnBoxLayout.addWidget(btn)
+            btnBoxLayout.addWidget(btn2)
+            btn2.clicked.connect(t2(v))
+            btn.clicked.connect(t(v))
+            self.tableWidget.setCellWidget(i,3, btnBox)
+        
+    def insertRecord(self):
+        c = db.db.cursor()
+        t = time.strftime("%Y-%m-%d %H:%M:%S")
+        sql = "INSERT INTO RECORD (name,startTime,endTime,createTime,useTime,fps, remark) \
+                VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(self.randomName(),t,t,t, '12.03', '30', self.randomName())
+        cursor = c.execute(sql)
+        # data = c.fetchall()
+        c.close()
+        db.db.commit()
+    def randomName(self):
+        first_name = ["王", "李", "张", "刘", "赵", "蒋", "孟", "陈", "徐", "杨", "沈", "马", "高", "殷", "上官", "钟", "常"]
+        second_name = ["伟", "华", "建国", "洋", "刚", "万里", "爱民", "牧", "陆", "路", "昕", "鑫", "兵", "硕", "志宏", "峰", "磊", "雷", "文","明浩", "光", "超", "军", "达"]
+        name = random.choice(first_name) + random.choice(second_name)
+        return name
 class MainWindow(QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -134,30 +204,33 @@ class MainWindow(QWidget):
         b.addWidget(self.table_widget) 
     def page_controller(self, signal):
         total_page = self.table_widget.showTotalPage()
+        i = 1
         if "home" == signal[0]:
-            self.table_widget.curPage.setText("1")
+            i = 1
         elif "pre" == signal[0]:
             if 1 == int(signal[1]):
                 QMessageBox.information(self, "提示", "已经是第一页了", QMessageBox.Yes)
                 return
-            self.table_widget.curPage.setText(str(int(signal[1]) - 1))
+            i = int(signal[1]) - 1
         elif "next" == signal[0]:
             if total_page == int(signal[1]):
                 QMessageBox.information(self, "提示", "已经是最后一页了", QMessageBox.Yes)
                 return
-            self.table_widget.curPage.setText(str(int(signal[1]) + 1))
+            i = int(signal[1]) + 1
         elif "final" == signal[0]:
-            self.table_widget.curPage.setText(str(total_page))
+            i = total_page
         elif "confirm" == signal[0]:
             if total_page < int(signal[1]) or int(signal[1]) < 0:
                 QMessageBox.information(self, "提示", "跳转页码超出范围", QMessageBox.Yes)
                 return
-            self.table_widget.curPage.setText(signal[1])
-
+            i = signal[1]
+        self.table_widget.currentPage = i
+        self.table_widget.curPage.setText(str(i))
         self.changeTableContent()  # 改变表格内容
 
     def changeTableContent(self):
         """根据当前页改变表格的内容"""
+        self.table_widget.refrushPage()
         cur_page = self.table_widget.curPage.text()
         pass
 
