@@ -33,15 +33,7 @@ class TableView(QWidget):
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidget.setAlternatingRowColors(True)
-        btnBox = QWidget()
-        btnBoxLayout = QHBoxLayout(btnBox)
-        btn = QPushButton('修改')
-        btn2 = QPushButton('删除')
-        btnBoxLayout.setContentsMargins(0,0,0,0)
-        btnBoxLayout.addWidget(btn)
-        btnBoxLayout.addWidget(btn2)
-        btn2.clicked.connect(lambda:self.deleteUser('sss'))
-        self.tableWidget.setCellWidget(1,4, btnBox)
+        
 
 
         # self.ui.tableWidget = self.tableWidget
@@ -68,28 +60,47 @@ class TableView(QWidget):
         ui.addUserBtn.clicked.connect(self.addUser)
         self.refrushUserPage('')
         
-        self.ud = ud.userDetails()
-        self.ud.userDetailsSignal.connect(self.addUserClick)
+        
     def addUser(self):
         # self.ui = QUiLoader().load('./ui/user.ui')
         
         # layout = QBoxLayout()
         # dialog.setLayout(layout)
         # layout.addWidget(self.ui)
-        
+        self.ud = ud.userDetails(None)
+        self.ud.userDetailsSignal.connect(self.addUserClick)
         self.ud.show()
     def addUserClick(self,int):
-        print(int)
+        self.ud.close()
         self.refrushUserPage('')
     def modifyUser(self, user):
+        self.ud = ud.userDetails(user)
+        self.ud.userDetailsSignal.connect(self.addUserClick)
+        self.ud.show()
         pass
+    def deleteUserCheck(self, user):
+        box = QMessageBox(QMessageBox.Question, "提示", '是否确认删除运动员"{}"'.format(user[0]), QMessageBox.NoButton, self)
+        yr_btn = box.addButton(self.tr("是"), QMessageBox.YesRole)
+        box.addButton(self.tr("否"), QMessageBox.NoRole)
+        box.exec_()
+        if box.clickedButton() == yr_btn:
+            self.deleteUser(user)
+            return
+        else:
+            box.close()
+            print('cancel')
     def deleteUser(self, user):
-        print(user)
+        c = db.db.cursor()
+        sql = "DELETE FROM USER WHERE ID = {}".format(user[5])
+        cursor = c.execute(sql)
+        c.close()
+        db.db.commit()
+        self.refrushUserPage('')
     def refrushUserPage(self, username):
         c = db.db.cursor()
-        sql = "SELECT name, age, height, weight, trainer FROM USER"
+        sql = "SELECT name, age, height, weight, trainer, id FROM USER"
         if (username != ''):
-            sql += " WHRER name = %d".format(username)
+            sql += " WHRER name = {}".format(username)
         cursor = c.execute(sql)
         data = c.fetchall()
         self.data = data
@@ -100,10 +111,33 @@ class TableView(QWidget):
         l = len(self.data)
         self.tableWidget.setRowCount(l)
         s = QTableWidget
-        for i, v in self.data:
+        def t2(value):
+            return lambda: self.deleteUserCheck(value)
+        def t(value):
+            return lambda: self.modifyUser(value)
+        for i, v in enumerate(self.data):
             s1 = QTableWidgetItem(v[0])
-            self.tableWidget.setItem(1,1,s1)
-            print(s1)
+            self.tableWidget.setItem(i,0,s1)
+            s2 = QTableWidgetItem(str(v[1]))
+            self.tableWidget.setItem(i,2,s2)
+            s3 = QTableWidgetItem(str(v[2]))
+            
+            self.tableWidget.setItem(i,3,s3)
+            s4 = QTableWidgetItem(str(v[3]))
+            self.tableWidget.setItem(i,4,s4)
+            s5 = QTableWidgetItem(str(v[4]))
+            self.tableWidget.setItem(i,1,s5)
+            btnBox = QWidget()
+            btnBoxLayout = QHBoxLayout(btnBox)
+            btn = QPushButton('修改')
+            btn2 = QPushButton('删除')
+            btnBoxLayout.setContentsMargins(0,0,0,0)
+            btnBoxLayout.addWidget(btn)
+            btnBoxLayout.addWidget(btn2)
+            btn2.clicked.connect(t2(v))
+            btn.clicked.connect(t(v))
+            self.tableWidget.setCellWidget(i,5, btnBox)
+        
     def searchUser():
         pass
     def close_event(self, event):

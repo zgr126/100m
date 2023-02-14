@@ -14,13 +14,30 @@ import utils.db as db
 
 class userDetails(QDialog):
     userDetailsSignal = Signal(int)
-    def __init__(self, arg=None):
+    type = '新增'
+    user = []
+    def __init__(self, user, arg=None):
         super(userDetails, self).__init__(arg)
+        # 判断user
+        if user is None:
+            self.type = '新增'
+            
+        else:
+            self.type = '编辑'
+            self.user = user
+            self.ui.i1.setText(user[0])
+            self.ui.i1.setText(user[1])
+            self.ui.i1.setText(user[4])
+            self.ui.i1.setText(user[2])
+            self.ui.i1.setText(user[3])
+        # s = QLabel()
+        # s.setText
         self.ui = QUiLoader().load('./ui/user.ui')
         # flags = self.windowFlags()
         # self.ui.setWindowFlags(flags | Qt.WindowStaysOnTopHint)
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.setFixedSize(self.ui.width(), self.ui.height())
+        self.ui.setWindowTitle('{}运动员'.format(self.type))
         self.ui.i2.setValidator(QtGui.QDoubleValidator())
         self.ui.i3.setValidator(QtGui.QDoubleValidator())
         self.ui.i5.setValidator(QtGui.QDoubleValidator())
@@ -42,8 +59,14 @@ class userDetails(QDialog):
             return
         c = db.db.cursor()
         t = time.time()
-        cursor = c.execute("INSERT INTO USER (name,age,weight,trainer,height, createTime) \
-            VALUES ({}, {}, {}, {}, {}, {})".format(t1,t2,t3, t4, t5, t))
+        if self.type == '新增':
+            sql = "INSERT INTO USER (name,age,weight,trainer,height, createTime) \
+                VALUES ('{}', {}, {}, '{}', {}, {})".format(t1,t2,t3, t4, t5, t)
+        else:
+            sql = "UPDATE USER SET name = {}, age = {}, weight = {}, trainer = {}, height = {}, updateTime = {} \
+                WHERE id = {}".format(t1,t2,t3,t4,t5,t,self.user[5])
+        print(sql)
+        cursor = c.execute(sql)
         
         c.close()
         db.db.commit()
