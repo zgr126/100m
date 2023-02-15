@@ -28,7 +28,7 @@ plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
 import pages.user as user
 import utils.db as db
 import pages.record as record
-
+import pages.recordDetail as recordD
 # 主页面信号
 class mainSignal(QObject):
     setMainPage= Signal(int)
@@ -36,11 +36,23 @@ main_signal = mainSignal()
 
 # 主页面ui
 class MainWindow(QMainWindow):
+    currentPage = 0
     def __init__(self):
         super(MainWindow, self).__init__()
         # self.ui = Ui_MainWindow()
         self.ui = QUiLoader().load('./ui/main.ui')
         self.user = user.user(self.ui)
+    # 记录详情页面
+    def toDetail(self, record):
+        print(record)
+        self.leftClick(3)
+        # 设置recordDetails
+        b = QVBoxLayout()
+        self.ui.recordDetail.setLayout(b)
+        w = recordD.userDetails(record)
+        b.addWidget(w.ui)
+        # w.view_signal.connect(self.toDetail)
+        # s.setCurrentIndex
     def show(self):
         self.ui.show()
         self.leftClick(1)
@@ -61,11 +73,17 @@ class MainWindow(QMainWindow):
         # self.ui.graphicsView.setScene(graphicsScene)
         # self.ui.graphicsView.show()  # 调用show方法呈现图形
     def leftClick(self, p):
-        a = QWidget()
-        b = QVBoxLayout()
-        self.ui.data.setLayout(b)
-        b.addWidget(record.MainWindow())
+        self.currentPage = p
+        print(p)
         self.ui.container.setCurrentIndex(p)
+        if p == 1:
+            # 设置record
+            b = QVBoxLayout()
+            self.ui.record.setLayout(b)
+            w = record.MainWindow()
+            b.addWidget(w)
+            w.view_signal.connect(self.toDetail)
+       
     # def change
     def closeEvent(self, event):
         print('exit!!!!!!')

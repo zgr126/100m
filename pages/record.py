@@ -34,6 +34,7 @@ class user(QWidget):
 
 class TableWidget(QWidget):
     control_signal = Signal(list)
+    select_signal = Signal(list)
     data = []
     allDataLen = 0
     currentPage = 1
@@ -63,7 +64,7 @@ class TableWidget(QWidget):
         # 搜索框
         self.header = QUiLoader().load('./ui/searchRecordHeader.ui')
         self.header.pushButton.clicked.connect(self.search)
-        self.header.endDateTime.setDateTime(QDateTime.currentDateTime())
+        self.header.endDateTime.setDateTime(QDateTime.currentDateTime().addDays(30))
         self.header.btn.clicked.connect(self.insertRecord)
 
         self.__layout.addWidget(self.header)
@@ -138,11 +139,11 @@ class TableWidget(QWidget):
         sql = "SELECT COUNT(*) FROM RECORD WHERE name LIKE '%{}%' AND startTime >= '{}' AND endTime <= '{}'".format(self.header.lineEdit.text(), self.header.startDateTime.dateTime().toPython(), self.header.endDateTime.dateTime().toPython()) 
         v = c.execute(sql)
         self.allDataLen = v.fetchone()[0]
-        sql = "SELECT name, startTime, endTime, useTime, remark, id FROM RECORD WHERE name LIKE '%{}%' AND startTime >= '{}' AND endTime <= '{}' LIMIT 10 OFFSET {}".format(self.header.lineEdit.text(), self.header.startDateTime.dateTime().toPython(), self.header.endDateTime.dateTime().toPython(), (self.currentPage-1)*10)
-        print(sql)
+        sql = "SELECT name, projectName, startTime, endTime, useTime, remark, id FROM RECORD WHERE name LIKE '%{}%' AND startTime >= '{}' AND endTime <= '{}' LIMIT 10 OFFSET {}".format(self.header.lineEdit.text(), self.header.startDateTime.dateTime().toPython(), self.header.endDateTime.dateTime().toPython(), (self.currentPage-1)*10)
+        # print(sql)
         cursor = c.execute(sql)
         self.data = c.fetchall()
-        print(self.data)
+        # print(self.data)
         c.close()
         self.makeFrom()
         db.db.commit()
@@ -154,17 +155,17 @@ class TableWidget(QWidget):
         def t2(value):
             return lambda: self.deleteUserCheck(value)
         def t(value):
-            return lambda: self.modifyUser(value)
+            return lambda: self.showUser(value)
         for i, v in enumerate(self.data):
             s1 = QTableWidgetItem(v[0])
             self.tableWidget.setItem(i,0,s1)
-            s2 = QTableWidgetItem(str(v[1]))
+            s2 = QTableWidgetItem(str(v[2]))
             self.tableWidget.setItem(i,1,s2)
-            s3 = QTableWidgetItem(str(v[3]))
+            s3 = QTableWidgetItem(str(v[4]))
             self.tableWidget.setItem(i,2,s3)
             btnBox = QWidget()
             btnBoxLayout = QHBoxLayout(btnBox)
-            btn = QPushButton('修改')
+            btn = QPushButton('查看')
             btn2 = QPushButton('删除')
             btnBoxLayout.setContentsMargins(0,0,0,0)
             btnBoxLayout.addWidget(btn)
@@ -172,7 +173,26 @@ class TableWidget(QWidget):
             btn2.clicked.connect(t2(v))
             btn.clicked.connect(t(v))
             self.tableWidget.setCellWidget(i,3, btnBox)
-        
+    def showUser(self, record):
+        self.select_signal.emit(record)
+    def deleteUserCheck(self, user):
+        box = QMessageBox(QMessageBox.Question, "提示", '是否确认删除该条记录"{}"'.format(user[0]), QMessageBox.NoButton, self)
+        yr_btn = box.addButton(self.tr("是"), QMessageBox.YesRole)
+        box.addButton(self.tr("否"), QMessageBox.NoRole)
+        box.exec_()
+        if box.clickedButton() == yr_btn:
+            self.deleteUser(user)
+            return
+        else:
+            box.close()
+            print('cancel')
+    def deleteUser(self, user):
+        c = db.db.cursor()
+        sql = "DELETE FROM RECORD WHERE ID = {}".format(user[5])
+        cursor = c.execute(sql)
+        c.close()
+        db.db.commit()
+        self.refrushPage()    
     def insertRecord(self):
         c = db.db.cursor()
         t = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -188,6 +208,7 @@ class TableWidget(QWidget):
         name = random.choice(first_name) + random.choice(second_name)
         return name
 class MainWindow(QWidget):
+    view_signal = Signal(list)
     def __init__(self):
         super(MainWindow, self).__init__()
         self.__init_ui()
@@ -202,6 +223,9 @@ class MainWindow(QWidget):
         b = QVBoxLayout()
         self.setLayout(b)
         b.addWidget(self.table_widget) 
+        self.table_widget.select_signal.connect(self.relay)
+    def relay(self, lst):
+        self.view_signal.emit(lst)
     def page_controller(self, signal):
         total_page = self.table_widget.showTotalPage()
         i = 1
