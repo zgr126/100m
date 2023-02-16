@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         # s.setCurrentIndex
     def show(self):
         self.ui.show()
-        self.leftClick(1)
+        self.toDetail(['s','s','s','s','s','s','s','s','s'])
     def register(self):
 
         # v = changePage()

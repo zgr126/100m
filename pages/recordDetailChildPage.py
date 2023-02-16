@@ -11,7 +11,7 @@ from PySide6.QtUiTools import QUiLoader
 import time
 import utils.db as db
 import calc.List4_Basic as l4
-import pages.recordDetailChildPage as pr
+
 import matplotlib
 matplotlib.use("Qt5Agg")
 import sqlite3
@@ -21,12 +21,18 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import pyqtgraph as pg
 
-class userDetails(QWidget):
+class Page(QWidget):
     userDetailsSignal = Signal(int)
     type = '新增'
     user = []
+    p4 = [['左肩',0],['右肩',1],['左肘',1],['右肘',1],['左腕',1],['右腕',1],
+    ['左髋',1],['右髋',1],['左膝',1],['右膝',1],['左踝',1],['右踝',1],['重心',1]]
+    p567 = [['左肩',0],['右肩',1],['左肘',1],['右肘',1],['左腕',1],['右腕',1],
+    ['左髋',1],['右髋',1],['左膝',1],['右膝',1],['左踝',1],['右踝',1]]
+    p8 = [['左大臂',0],['右大臂',1],['左小臂',1],['右小臂',1],['左躯干',1],['右躯干',1],
+    ['左大腿',1],['右大腿',1],['左小腿',1],['右小腿',1]]
     def __init__(self, user, arg=None):
-        super(userDetails, self).__init__(arg)
+        super(Page, self).__init__(arg)
         self.ui = QUiLoader().load('./ui/recordDetail.ui')
         self.ui.pro.setText(str(user[1]))
         self.ui.userName.setText(str(user[0]))
@@ -34,23 +40,28 @@ class userDetails(QWidget):
         self.ui.uTime.setText(str(user[4]))
         self.ui.textBrowser.setText(str(user[5]))
 
-        self.layout =  QVBoxLayout()
-        self.ui.page.setLayout(self.layout)
+        b = QVBoxLayout()
+        self.ui.page.setLayout(b)
+        print('ss')
         
-        self.initPage(4)
-
-    def clickTop(self, page):
-        # 移除layout
-        self.pr.setParent(None)
-        self.layout.removeWidget(self.pr)
-        self.initPage(page)
-    def initPage(self,page):
-       
-        self.pr = pr.Page(page)
         widget = Window(l4.draw())
-        self.layout.addWidget(widget)
-        self.ui.page.
-        self.pr.changePage(page)
+        b.addWidget(widget)
+    def changePage(self, page):
+        #第一个单选组
+        rbt1 = QRadioButton(window)
+        rbt1.move(0, 0)
+        rbt1.setText("选项0")
+        rbt2 = QRadioButton(window)
+        rbt2.move(0, 20)
+        rbt2.setText("选项1")
+        rbt3 = QRadioButton(window)
+        rbt3.move(0, 40)
+        rbt3.setText("选项2")
+        btg1=QButtonGroup()#创建一个按钮组
+        btg1.addButton(rbt1,0)#将单选按钮添加到按钮组，组成单选组。
+        btg1.addButton(rbt2,1)
+        btg1.addButton(rbt3,2)
+        btg1.buttonClicked.connect(butClicked)#添加事件
 
 class Window(QWidget):
     def __init__(self, AccXYZArr):
