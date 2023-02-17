@@ -29,6 +29,7 @@ import pages.user as user
 import utils.db as db
 import pages.record as record
 import pages.recordDetail as recordD
+import utils.print as up
 # 主页面信号
 class mainSignal(QObject):
     setMainPage= Signal(int)

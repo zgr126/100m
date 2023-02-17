@@ -134,35 +134,35 @@ class Ui_Form(object):
         self.horizontalLayout_32 = QHBoxLayout(self.widget_25)
         self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
         self.horizontalLayout_32.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_29 = QPushButton(self.widget_25)
-        self.pushButton_29.setObjectName(u"pushButton_29")
+        self.t4 = QPushButton(self.widget_25)
+        self.t4.setObjectName(u"t4")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_29)
+        self.horizontalLayout_32.addWidget(self.t4)
 
-        self.pushButton_30 = QPushButton(self.widget_25)
-        self.pushButton_30.setObjectName(u"pushButton_30")
+        self.t5 = QPushButton(self.widget_25)
+        self.t5.setObjectName(u"t5")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_30)
+        self.horizontalLayout_32.addWidget(self.t5)
 
-        self.pushButton_33 = QPushButton(self.widget_25)
-        self.pushButton_33.setObjectName(u"pushButton_33")
+        self.t6 = QPushButton(self.widget_25)
+        self.t6.setObjectName(u"t6")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_33)
+        self.horizontalLayout_32.addWidget(self.t6)
 
-        self.pushButton_32 = QPushButton(self.widget_25)
-        self.pushButton_32.setObjectName(u"pushButton_32")
+        self.t7 = QPushButton(self.widget_25)
+        self.t7.setObjectName(u"t7")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_32)
+        self.horizontalLayout_32.addWidget(self.t7)
 
-        self.pushButton_31 = QPushButton(self.widget_25)
-        self.pushButton_31.setObjectName(u"pushButton_31")
+        self.t8 = QPushButton(self.widget_25)
+        self.t8.setObjectName(u"t8")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_31)
+        self.horizontalLayout_32.addWidget(self.t8)
 
-        self.pushButton_34 = QPushButton(self.widget_25)
-        self.pushButton_34.setObjectName(u"pushButton_34")
+        self.t9 = QPushButton(self.widget_25)
+        self.t9.setObjectName(u"t9")
 
-        self.horizontalLayout_32.addWidget(self.pushButton_34)
+        self.horizontalLayout_32.addWidget(self.t9)
 
 
         self.verticalLayout_16.addWidget(self.widget_25)
@@ -186,6 +186,9 @@ class Ui_Form(object):
 
 
         self.retranslateUi(Form)
+
+        self.stackedWidget.setCurrentIndex(0)
+
 
         QMetaObject.connectSlotsByName(Form)
     # setupUi
@@ -214,11 +217,11 @@ class Ui_Form(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u554a\u554a\u554a\u554a\u554a\u554a\u554a\u554a</p></body></html>", None))
-        self.pushButton_29.setText(QCoreApplication.translate("Form", u"\u57fa\u7840\u6570\u636e", None))
-        self.pushButton_30.setText(QCoreApplication.translate("Form", u"\u5939\u89d2\u6570\u636e", None))
-        self.pushButton_33.setText(QCoreApplication.translate("Form", u"\u80a2\u4f53\u5e73\u9762\u5939\u89d2", None))
-        self.pushButton_32.setText(QCoreApplication.translate("Form", u"\u5173\u8282\u6295\u5f71\u89d2", None))
-        self.pushButton_31.setText(QCoreApplication.translate("Form", u"\u5e73\u9762\u6295\u5f71\u89d2", None))
-        self.pushButton_34.setText(QCoreApplication.translate("Form", u"\u6280\u672f\u6307\u6807", None))
+        self.t4.setText(QCoreApplication.translate("Form", u"\u57fa\u7840\u6570\u636e", None))
+        self.t5.setText(QCoreApplication.translate("Form", u"\u5939\u89d2\u6570\u636e", None))
+        self.t6.setText(QCoreApplication.translate("Form", u"\u80a2\u4f53\u5e73\u9762\u5939\u89d2", None))
+        self.t7.setText(QCoreApplication.translate("Form", u"\u5173\u8282\u6295\u5f71\u89d2", None))
+        self.t8.setText(QCoreApplication.translate("Form", u"\u5e73\u9762\u6295\u5f71\u89d2", None))
+        self.t9.setText(QCoreApplication.translate("Form", u"\u6280\u672f\u6307\u6807", None))
     # retranslateUi
 

@@ -10,15 +10,16 @@ from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtUiTools import QUiLoader
 import time
 import utils.db as db
-import calc.List4_Basic as l4
+# import calc.List4_Basic as l4
+import calc.main2 as cm
+import utils.QFlowLayout as uQ
+# import matplotlib
+# matplotlib.use("Qt5Agg")
+# import sqlite3
 
-import matplotlib
-matplotlib.use("Qt5Agg")
-import sqlite3
-
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
+# from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+# from matplotlib.figure import Figure
+# import matplotlib.pyplot as plt
 import pyqtgraph as pg
 
 class Page(QWidget):
@@ -31,40 +32,83 @@ class Page(QWidget):
     ['左髋',1],['右髋',1],['左膝',1],['右膝',1],['左踝',1],['右踝',1]]
     p8 = [['左大臂',0],['右大臂',1],['左小臂',1],['右小臂',1],['左躯干',1],['右躯干',1],
     ['左大腿',1],['右大腿',1],['左小腿',1],['右小腿',1]]
-    def __init__(self, user, arg=None):
+    def __init__(self, page, data, arg=None):
         super(Page, self).__init__(arg)
-        self.ui = QUiLoader().load('./ui/recordDetail.ui')
-        self.ui.pro.setText(str(user[1]))
-        self.ui.userName.setText(str(user[0]))
-        self.ui.sTime.setText(str(user[2]))
-        self.ui.uTime.setText(str(user[4]))
-        self.ui.textBrowser.setText(str(user[5]))
+        self.data = data
+        self.addWidget(page)
 
-        b = QVBoxLayout()
-        self.ui.page.setLayout(b)
-        print('ss')
+    def addWidget(self, page):
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+        print(page)
+        if page == 4:
+            self.layout.addWidget(self.page4())
+        #     self.layout.addWidget(self.changePage(4))
+        # btnGroup = self.changePage()
+    # def changePage(self, page):
+    #     rbt4 = QRadioButton("选项3",window)
+    #     rbt4.move(100, 0)
+    #     rbt5 = QRadioButton("选项4",window)
+    #     rbt5.move(100, 20)
+    #     rbt6 = QRadioButton("选项5",window)
+    #     rbt6.move(100, 40)
+    #     btg2=QButtonGroup()#创建一个按钮组
+    #     btg2.addButton(rbt4,3)#将单选按钮添加到按钮组，组成单选组。
+    #     btg2.addButton(rbt5,4)
+    #     btg2.addButton(rbt6,5)
+    #     btg2.buttonClicked.connect(butClicked)#添加事件
+    def page4(self):
         
-        widget = Window(l4.draw())
-        b.addWidget(widget)
-    def changePage(self, page):
-        #第一个单选组
-        rbt1 = QRadioButton(window)
-        rbt1.move(0, 0)
-        rbt1.setText("选项0")
-        rbt2 = QRadioButton(window)
-        rbt2.move(0, 20)
-        rbt2.setText("选项1")
-        rbt3 = QRadioButton(window)
-        rbt3.move(0, 40)
-        rbt3.setText("选项2")
-        btg1=QButtonGroup()#创建一个按钮组
-        btg1.addButton(rbt1,0)#将单选按钮添加到按钮组，组成单选组。
-        btg1.addButton(rbt2,1)
-        btg1.addButton(rbt3,2)
-        btg1.buttonClicked.connect(butClicked)#添加事件
 
+        layout = uQ.FlowLayout()
+        # layout = QHBoxLayout()
+        # layout.columnMinimumWidth(450)
+        wid = QGroupBox()
+        wid.setLayout(layout)
+        options = cm.Show4(-1,self.data)
+        # w= Window({'data':x1,
+        #     'title': 'ind点xz面位移图(俯视)',
+        #     'yAxix': ['z axis','帧率']
+        #     })
+        for i in options:
+            w = Window(i)
+            layout.addWidget(w)
+            w.setStyleSheet('''
+                QGroupBox {
+                    margin-top: 1ex;
+                }
+                QGroupBox:enabled {
+                    border: 3px solid green;
+                }
+                QGroupBox::title {
+                    subcontrol-origin: margin;
+                    left: 1ex;
+                }''')
+            print(w)
+        container_layout = QVBoxLayout()
+        listW = QListWidget()
+        listW.setLayout(container_layout)
+        wid.setStyleSheet('''
+        QGroupBox {
+            margin-top: 1ex;
+        }
+        QGroupBox:enabled {
+            border: 3px solid green;
+        }
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 1ex;
+        }''')
+        container_layout.addWidget(wid)
+        # container_layout.addStretch()
+        # l = QWidget()
+        qscrollarea = QtWidgets.QScrollArea()
+        qscrollarea.setGeometry(QRect(50,100,600,500))
+        qscrollarea.setWidgetResizable(True)
+        qscrollarea.setWidget(listW)
+        return qscrollarea
 class Window(QWidget):
-    def __init__(self, AccXYZArr):
+    def __init__(self, options):
         super().__init__()
         # 设置下尺寸
         self.resize(440,340)
@@ -75,10 +119,12 @@ class Window(QWidget):
 
         # 仿写 mode1 代码中的数据
         # 生成 300 个正态分布的随机数
-        self.data1 = AccXYZArr[:,3,0].tolist()
-        self.plotWidget_ted.setYRange(-1,1)
+        title = options['title']
+        # self.plotWidget_ted.setYRange(-1,1)
         self.plotWidget_ted.setLabel("left","value",units='V')
-        self.plotWidget_ted.setLabel("bottom","Timestamp",units='us')
-        self.plotWidget_ted.setTitle('hello title')
+        self.plotWidget_ted.setTitle(title)
         self.plotWidget_ted.setBackground((255, 255, 255))
-        self.curve1 = self.plotWidget_ted.plot(self.data1, name="mode1")
+        # self.plotWidget_ted.setConfigOption('WheelSpin', False)
+        # self.plotWidget_ted.
+        self.curve1 = self.plotWidget_ted.plot(options['data'], name="mode1")
+
