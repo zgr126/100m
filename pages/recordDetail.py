@@ -36,25 +36,23 @@ class userDetails(QWidget):
         self.childPageData = cR.ReadData()
 
         self.initPage(4)
-        self.ui.t4.clicked.connect(self.t4)
-        self.ui.t5.clicked.connect(self.t4)
-        self.ui.t6.clicked.connect(self.t4)
-        self.ui.t7.clicked.connect(self.t4)
-        self.ui.t8.clicked.connect(self.t4)
-        self.ui.t9.clicked.connect(self.t9)
+        self.ui.t4.clicked.connect(lambda: self.changPage(4))
+        self.ui.t5.clicked.connect(lambda: self.changPage(5))
+        self.ui.t6.clicked.connect(lambda: self.changPage(6))
+        self.ui.t7.clicked.connect(lambda: self.changPage(7))
+        self.ui.t8.clicked.connect(lambda: self.changPage(8))
+        self.ui.t9.clicked.connect(lambda: self.changPage(9))
 
         
-    def clickTop(self, page):
+    def removePage(self):
         # 移除layout
         self.pr.setParent(None)
         self.layout.removeWidget(self.pr)
-        self.initPage(page)
     def initPage(self,page):
-       
+        
         self.pr = pr.Page(page, self.childPageData)
         print(self.pr)
         self.layout.addWidget(self.pr)
-    def t9(self):
-        self.stackedWidget.setCurrentIndex(1)
-    def t4(self):
-        self.stackedWidget.setCurrentIndex(0)
+    def changPage(self, value):
+        self.removePage()
+        self.initPage(value)

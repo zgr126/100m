@@ -30,7 +30,7 @@ class Window(QWidget):
         # self.gongzuomoshi = QtWidgets.QGroupBox(self.centralwidget)
         self.listWidget = QtWidgets.QListWidget(self)
         #self.listWidget.setFixedWidth(600)
-        container_layout = QtWidgets.QVBoxLayout()
+        container_layout = QtWidgets.QHBoxLayout()
         g = QtWidgets.QGroupBox('')
         l = FlowLayout()
         g.setLayout(l)
@@ -45,6 +45,17 @@ class Window(QWidget):
                 l.addWidget(label)
         
         container_layout.addWidget(g)
+        g.setStyleSheet('''
+            QGroupBox {
+                margin-top: 1ex;
+            }
+            QGroupBox:enabled {
+                border: 3px solid green;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 1ex;
+            }''')
         container_layout.addStretch()
         self.listWidget.setLayout(container_layout)
        
