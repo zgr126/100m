@@ -56,6 +56,14 @@ class Page(QWidget):
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
         self.layout.addWidget(self.addBtns(self.pageConifg))
+        
+        # 展示区域
+        self.qscrollarea = QtWidgets.QScrollArea()
+        self.qscrollarea.setContentsMargins(0,0,0,0)
+        self.qscrollarea.setGeometry(QRect(50,100,600,500))
+        self.qscrollarea.setWidgetResizable(True)
+        self.layout.addWidget(self.qscrollarea)
+
         self.addWidget(0)
     def addWidget(self, ind):
         
@@ -69,7 +77,7 @@ class Page(QWidget):
             self.page = self.page7(ind)
         if self.pageIndex == 8:
             self.page = self.page8(ind)
-        self.layout.addWidget(self.page)
+        self.qscrollarea.setWidget(self.page)
         # if page == 9:
         #     self.layout.addWidget(self.page9())
         #     self.layout.addWidget(self.changePage(4))
@@ -94,7 +102,7 @@ class Page(QWidget):
     def changeId(self,val):
         # 清除报表
         self.page.setParent(None)
-        self.layout.removeWidget(self.page)
+        # self.qscrollarea.remove removeWidget(self.page)
         print(val)
         self.addWidget(val)
         # rbt4 = QRadioButton("选项3",window)
@@ -141,23 +149,19 @@ def setPage(options):
     container_layout.addWidget(wid)
     # container_layout.addStretch()
     # l = QWidget()
-    qscrollarea = QtWidgets.QScrollArea()
-    qscrollarea.setContentsMargins(0,0,0,0)
-    qscrollarea.setGeometry(QRect(50,100,600,500))
-    qscrollarea.setWidgetResizable(True)
-    qscrollarea.setWidget(listW)
-    return qscrollarea
+    
+    return listW
 class Window(QWidget):
     def __init__(self, options):
         super().__init__()
         # 设置下尺寸
-        self.resize(440,340)
+        self.resize(400,300)
         # 添加 PlotWidget 控件
         self.plotWidget_ted = pg.PlotWidget(self)
         # 设置该控件尺寸和相对位置
-        self.plotWidget_ted.setGeometry(QtCore.QRect(20,20,400,300))
-        self.setFixedWidth(440)
-        self.setFixedHeight(340)
+        self.plotWidget_ted.setGeometry(QtCore.QRect(0,0,400,300))
+        self.setFixedWidth(400)
+        self.setFixedHeight(300)
         self.setStyleSheet('''
             QWidget {
                 margin: 0ex;

@@ -16,17 +16,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QPushButton,
-    QSizePolicy, QStackedWidget, QTextBrowser, QVBoxLayout,
-    QWidget)
+    QSizePolicy, QSpacerItem, QStackedWidget, QTextBrowser,
+    QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(884, 622)
-        self.horizontalLayout_29 = QHBoxLayout(Form)
-        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
-        self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
+        Form.resize(950, 622)
+        self.verticalLayout_19 = QVBoxLayout(Form)
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
         self.widget_22 = QWidget(Form)
         self.widget_22.setObjectName(u"widget_22")
         self.horizontalLayout_30 = QHBoxLayout(self.widget_22)
@@ -164,6 +164,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_32.addWidget(self.t9)
 
+        self.t10 = QPushButton(self.widget_25)
+        self.t10.setObjectName(u"t10")
+
+        self.horizontalLayout_32.addWidget(self.t10)
+
 
         self.verticalLayout_16.addWidget(self.widget_25)
 
@@ -172,9 +177,41 @@ class Ui_Form(object):
         self.page = QWidget()
         self.page.setObjectName(u"page")
         self.stackedWidget.addWidget(self.page)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.stackedWidget.addWidget(self.page_2)
+        self.page2 = QWidget()
+        self.page2.setObjectName(u"page2")
+        self.verticalLayout_20 = QVBoxLayout(self.page2)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.widget_26 = QWidget(self.page2)
+        self.widget_26.setObjectName(u"widget_26")
+        self.widget_26.setMaximumSize(QSize(16777215, 30))
+        self.horizontalLayout_29 = QHBoxLayout(self.widget_26)
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_29 = QPushButton(self.widget_26)
+        self.pushButton_29.setObjectName(u"pushButton_29")
+
+        self.horizontalLayout_29.addWidget(self.pushButton_29)
+
+        self.label_80 = QLabel(self.widget_26)
+        self.label_80.setObjectName(u"label_80")
+
+        self.horizontalLayout_29.addWidget(self.label_80)
+
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_29.addItem(self.horizontalSpacer_8)
+
+
+        self.verticalLayout_20.addWidget(self.widget_26)
+
+        self.details = QWidget(self.page2)
+        self.details.setObjectName(u"details")
+        self.layout2 = QVBoxLayout(self.details)
+        self.layout2.setObjectName(u"layout2")
+
+        self.verticalLayout_20.addWidget(self.details)
+
+        self.stackedWidget.addWidget(self.page2)
 
         self.verticalLayout_16.addWidget(self.stackedWidget)
 
@@ -182,12 +219,12 @@ class Ui_Form(object):
         self.horizontalLayout_30.addWidget(self.widget_24)
 
 
-        self.horizontalLayout_29.addWidget(self.widget_22)
+        self.verticalLayout_19.addWidget(self.widget_22)
 
 
         self.retranslateUi(Form)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(Form)
@@ -223,5 +260,8 @@ class Ui_Form(object):
         self.t7.setText(QCoreApplication.translate("Form", u"\u5173\u8282\u6295\u5f71\u89d2", None))
         self.t8.setText(QCoreApplication.translate("Form", u"\u5e73\u9762\u6295\u5f71\u89d2", None))
         self.t9.setText(QCoreApplication.translate("Form", u"\u6280\u672f\u6307\u6807", None))
+        self.t10.setText(QCoreApplication.translate("Form", u"\u89c6\u9891\u56de\u653e", None))
+        self.pushButton_29.setText(QCoreApplication.translate("Form", u"\u5bf9\u6bd4\u9879\u76ee", None))
+        self.label_80.setText(QCoreApplication.translate("Form", u"\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34", None))
     # retranslateUi
 

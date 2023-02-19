@@ -8,8 +8,8 @@ from turbojpeg import TurboJPEG, TJPF_BGR
 #from nvjpeg import NvJpeg
 import ctypes, os, copy
 
-server_ip = "192.168.123.68"
-host_ip = "192.168.123.67"
+server_ip = "192.168.123.146"
+host_ip = "192.168.123.15"
 communication_port = 6000
 
 class CAlogrithmSocket:
