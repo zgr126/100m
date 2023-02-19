@@ -77,10 +77,17 @@ class Page(QWidget):
             self.layout.removeWidget(a)
 
         option1 = [{'data':List9['PerSpeed'],
-            'xData': ['项目', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
+            'xData': ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
             'title':'运动员在每10米分段平均速度',
-            'yAxis':['速度','m/s']}]
-        self.formWid = setPage(option1)
+            'type': 'line',
+            'yAxis':['速度','m/s']},
+            {'data':[List9['LandLF'],List9['LandRT'],List9['RiseLF'],List9['RiseRT'],
+            List9['LFTime'],List9['RTTime'],List9['BufferLF'],List9['BufferRT'],List9['KickLF'],List9['KickRT']],
+            'xData': ['左着地', '右着地', '左腾空', '右腾空', '左单步', '右单步', '左缓冲', '右缓冲', '左伸蹬', '右伸蹬'],
+            'title':'运动员在每10米分段平均速度',
+            'type': 'bar',
+            'yAxis':['时间','s']},]
+        self.formWid = formScrollArea(option1)
         self.layout.addWidget(self.formWid)
         # self.layout.wid
 def formScrollArea(options):
@@ -149,13 +156,24 @@ class Window(QWidget):
         # self.plotWidget_ted.
         hasX = options['xData'] is not None
         if hasX:
-            xdict = dict(enumerate(options['xData'][1:]))
+            xdict = dict(enumerate(options['xData']))
             x = list(xdict.values())
-            ticks = [(i, j) for i, j in zip(range(10), options['xData'][1:])]
+            ticks = [(i, j) for i, j in zip(range(10), options['xData'])]
             print(ticks)
             self.curve1 = self.plotWidget_ted.plot(options['data'][:10], name="mode1")
             xax = self.plotWidget_ted.getAxis('bottom')
             xax.setTicks([ticks])
+            # self.plotWidget_ted.bar
+            # 显示图表
+        # plot = FigureCanvasDemo3(
+        #     width=self.ui.graphicsView.width() / 101,
+        #     height=self.ui.graphicsView.height() / 101
+        # )
+        
+        # graphicsScene = QGraphicsScene()  # 创建一个QGraphicsScene
+        # graphicsScene.addWidget(plot)
+        # self.ui.graphicsView.setScene(graphicsScene)
+        # self.ui.graphicsView.show()  # 调用show方法呈现图形
         else:
             self.curve1 = self.plotWidget_ted.plot(options['data'], name="mode1")
         

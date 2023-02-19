@@ -29,6 +29,7 @@ import pages.user as user
 import utils.db as db
 import pages.record as record
 import pages.recordDetail as recordD
+import pages.income as income
 import utils.print as up
 # 主页面信号
 class mainSignal(QObject):
@@ -43,6 +44,13 @@ class MainWindow(QMainWindow):
         # self.ui = Ui_MainWindow()
         self.ui = QUiLoader().load('./ui/main.ui')
         self.user = user.user(self.ui)
+        
+        self.ui.p1.clicked.connect(lambda:self.leftClick(0))
+        self.ui.p2.clicked.connect(lambda:self.leftClick(2))
+        self.ui.p3.clicked.connect(lambda:self.leftClick(1))
+        self.ui.show()
+        self.leftClick(0)
+        self.income = income.income(self.ui)
     # 记录详情页面
     def toDetail(self, record):
         print(record)
@@ -56,23 +64,7 @@ class MainWindow(QMainWindow):
         # s.setCurrentIndex
     def show(self):
         self.ui.show()
-        self.toDetail(['s','s','s','s','s','s','s','s','s'])
-    def register(self):
-
-        # v = changePage()
-        self.ui.p1.clicked.connect(lambda:self.leftClick(0))
-        self.ui.p2.clicked.connect(lambda:self.leftClick(2))
-        self.ui.p3.clicked.connect(lambda:self.leftClick(1))
-        # 显示图表
-        # plot = FigureCanvasDemo3(
-        #     width=self.ui.graphicsView.width() / 101,
-        #     height=self.ui.graphicsView.height() / 101
-        # )
-        
-        # graphicsScene = QGraphicsScene()  # 创建一个QGraphicsScene
-        # graphicsScene.addWidget(plot)
-        # self.ui.graphicsView.setScene(graphicsScene)
-        # self.ui.graphicsView.show()  # 调用show方法呈现图形
+        # self.toDetail(['s','s','s','s','s','s','s','s','s'])
     def leftClick(self, p):
         self.currentPage = p
         print(p)
@@ -101,8 +93,6 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     window = MainWindow()
-    window.register()
-    window.show()
     # 应用进入主循环，事件处理开始执行。
     # 主循环用于接收来自窗口触发的事件，并且转发她们到widget应用上处理。
     # 如果调用exit()方法或主widget组件被销毁，主循环将退出。

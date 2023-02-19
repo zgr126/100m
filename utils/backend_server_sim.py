@@ -1,11 +1,12 @@
 import time, cv2, json
 import numpy as np
-from com_socket import CBackEndSocket
+from utils.com_socket import CBackEndSocket
 from matplotlib import colors, pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import animation
 import multiprocessing, ctypes
 import threading
+
 
 class PlotSticks:
 
@@ -394,8 +395,34 @@ def rev_telefocus_window( ip, port, galvos_num, enable_record, mc_id_fps_share, 
                         write_video_img_buffer_lst[galvo_index].append( rev_telefocus_img[:, 1440*galvo_index:1440*(galvo_index+1)] )
                         write_video_lck_lst[galvo_index].release()
 
-if __name__ == '__main__':
-    from com_socket import server_ip, communication_port
+# if __name__ == '__main__':
+#     from com_socket import server_ip, communication_port
+#     galvos_num = 2
+#     enable_record = True
+
+#     mc_id_fps_share =  multiprocessing.Manager().list()
+#     mc_reprojection_share = multiprocessing.Manager().Value( ctypes.c_char_p, 'disable' )
+#     id_fps_prj_lock = multiprocessing.Manager().Lock()
+
+#     sk_pos_share = multiprocessing.Manager().list()
+#     sk_pos_lock = multiprocessing.Manager().Lock()
+
+#     rev_wide_window_process = multiprocessing.Process(target=rev_wide_window,args=(server_ip, communication_port, galvos_num, enable_record, mc_id_fps_share, mc_reprojection_share, id_fps_prj_lock))
+#     rev_wide_window_process.start()
+#     rev_telefocus_window_process = multiprocessing.Process(target=rev_telefocus_window,args=(server_ip, communication_port, galvos_num, enable_record, mc_id_fps_share, mc_reprojection_share, id_fps_prj_lock, sk_pos_share, sk_pos_lock))
+#     rev_telefocus_window_process.start()
+#     #plot_sticks_process = multiprocessing.Process(target=plot_sticks,args=(sk_pos_share, sk_pos_lock))
+#     #plot_sticks_process.start()
+
+#     rev_wide_window_process.join()
+#     rev_telefocus_window_process.join()
+#     #plot_sticks_process.join()
+#     print("finished back_end server simulation!")
+
+def init():
+    # from com_socket import server_ip, communication_port
+    server_ip = "192.168.123.146"
+    communication_port = 6000
     galvos_num = 2
     enable_record = True
 
@@ -413,7 +440,7 @@ if __name__ == '__main__':
     #plot_sticks_process = multiprocessing.Process(target=plot_sticks,args=(sk_pos_share, sk_pos_lock))
     #plot_sticks_process.start()
 
-    rev_wide_window_process.join()
-    rev_telefocus_window_process.join()
+    # rev_wide_window_process.join()
+    # rev_telefocus_window_process.join()
     #plot_sticks_process.join()
     print("finished back_end server simulation!")
