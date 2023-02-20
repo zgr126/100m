@@ -31,11 +31,25 @@ import pages.record as record
 import pages.recordDetail as recordD
 import pages.income as income
 import utils.print as up
+import yaml
+import utils.gol as gol
 # 主页面信号
 class mainSignal(QObject):
     setMainPage= Signal(int)
 main_signal = mainSignal()
 
+##读取参数配置文件
+def Paramdic():
+    try:
+        with open('config.yaml', encoding="utf-8") as f:
+            dic = yaml.load(f,Loader=yaml.FullLoader) 
+        k=[i for i in dic]
+        v=[i for i in dic.values()]
+        # print(k)
+        # print(v)
+        return dic
+    except:
+        print('read config problem')
 # 主页面ui
 class MainWindow(QMainWindow):
     currentPage = 0
@@ -90,9 +104,11 @@ sys.exitfunc = exitfunc
 if __name__ == "__main__":
     # 所有应用必须创建一个应用（Application）对象
     # sys.argv参数是一个来自命令行的参数列表
-
+    gol.init()
+    gol.set('config',Paramdic())
     app = QApplication(sys.argv)
     window = MainWindow()
+    
     # 应用进入主循环，事件处理开始执行。
     # 主循环用于接收来自窗口触发的事件，并且转发她们到widget应用上处理。
     # 如果调用exit()方法或主widget组件被销毁，主循环将退出。

@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(948, 812)
+        MainWindow.resize(1059, 812)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_7 = QHBoxLayout(self.centralwidget)
@@ -84,7 +84,16 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QRect(10, 10, 54, 16))
         self.graphicsView = QGraphicsView(self.income)
         self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setGeometry(QRect(10, 30, 256, 192))
+        self.graphicsView.setGeometry(QRect(10, 30, 480, 270))
+        self.widget_4 = QWidget(self.income)
+        self.widget_4.setObjectName(u"widget_4")
+        self.widget_4.setGeometry(QRect(220, 520, 120, 80))
+        self.graphicsView_2 = QGraphicsView(self.income)
+        self.graphicsView_2.setObjectName(u"graphicsView_2")
+        self.graphicsView_2.setGeometry(QRect(490, 30, 480, 270))
+        self.graphicsView_3 = QGraphicsView(self.income)
+        self.graphicsView_3.setObjectName(u"graphicsView_3")
+        self.graphicsView_3.setGeometry(QRect(10, 300, 480, 270))
         self.container.addWidget(self.income)
         self.record = QWidget()
         self.record.setObjectName(u"record")
@@ -158,7 +167,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 948, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1059, 26))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -166,7 +175,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.container.setCurrentIndex(3)
+        self.container.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

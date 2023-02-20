@@ -457,6 +457,7 @@ class CBackEndSocket: #using c++ library
 
             self.decoder_buf_lck = Lock()
             self.decoder_buf = []
+            self.decoder_img = None
             self.imgDecoder_thread = Thread(target=self.__imgDecoder, args=(receive_wide_or_telefocus_img,) );
             self.imgDecoder_thread.start()
             self.imgDecoder_thread.setName('img_decoder_'+str(self.com_port))
@@ -492,9 +493,10 @@ class CBackEndSocket: #using c++ library
     def receiveWideImage( self ):
         img = None
         self.decoder_buf_lck.acquire(  )
-        if len( self.decoder_buf ) > 0:
-            img = self.decoder_buf[0]
-            self.decoder_buf.pop( 0 )
+        img = self.decoder_img
+        # if len( self.decoder_buf ) > 0:
+        #     img = self.decoder_buf[0]
+        #     self.decoder_buf.pop( 0 )
         self.decoder_buf_lck.release()
         return img
 
@@ -724,10 +726,11 @@ class CBackEndSocket: #using c++ library
             img = self.turbojpeg.decode( img_code, pixel_format=TJPF_BGR )
             #img = self.nj.decode( img_code )
             self.decoder_buf_lck.acquire()
-            self.decoder_buf.append( img )
-            if len( self.decoder_buf )  > self.buffer_size :
-                print("decode wide image buffer overflow:{}".format( len(self.decoder_buf)))
-                self.decoder_buf.pop(0)
+            self.decoder_img = img
+            # self.decoder_buf.append( img )
+            # if len( self.decoder_buf )  > self.buffer_size :
+            #     print("decode wide image buffer overflow:{}".format( len(self.decoder_buf)))
+            #     self.decoder_buf.pop(0)
             self.decoder_buf_lck.release( )
         else:
             sleep( 0.0001 )
@@ -897,6 +900,11 @@ if __name__ == '__main__':
         pos = {"pose_world":[{"x":i+pos_num,"y":i+pos_num+1, "z":i+pos_num+2 } for i in range(18)] }
         for galvo_index in range(galvos_num):
             pos.update({"pose_reprojection_"+str(galvo_index):[{"x":(i+pos_num+galvo_index)/1050.0, "y":(i+pos_num+galvo_index)/1050.0} for i in range(18)]})
+        
+        cmd = cmd_sck_recv.receiveCMD( "mc_reset" )
+        if cmd is not None:
+            print("get mc_reset: ",cmd)
+        
         #sending pictures
         wide_img_sck.sendWideImage( send_wide_img )
         telefocus_img_sck.sendPosAndTelefocusImg( send_telefocus_img, pos )

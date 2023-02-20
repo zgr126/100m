@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>948</width>
+    <width>1059</width>
     <height>812</height>
    </rect>
   </property>
@@ -127,7 +127,7 @@
           <item>
            <widget class="QStackedWidget" name="container">
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="income">
              <widget class="QLabel" name="label">
@@ -148,8 +148,38 @@
                <rect>
                 <x>10</x>
                 <y>30</y>
-                <width>256</width>
-                <height>192</height>
+                <width>480</width>
+                <height>270</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_4" native="true">
+              <property name="geometry">
+               <rect>
+                <x>220</x>
+                <y>520</y>
+                <width>120</width>
+                <height>80</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QGraphicsView" name="graphicsView_2">
+              <property name="geometry">
+               <rect>
+                <x>490</x>
+                <y>30</y>
+                <width>480</width>
+                <height>270</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QGraphicsView" name="graphicsView_3">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>300</y>
+                <width>480</width>
+                <height>270</height>
                </rect>
               </property>
              </widget>
@@ -246,7 +276,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>948</width>
+     <width>1059</width>
      <height>26</height>
     </rect>
    </property>
