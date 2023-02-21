@@ -359,8 +359,10 @@ def rev_telefocus_window( ip, port, galvos_num, enable_record, mc_id_fps_share, 
 
     while( True ):
         pos, rev_telefocus_img = telefocus_img_sck.receivePosAndTelefocusImg( )
+        
         if pos is not None and rev_telefocus_img is not None:
             # id_fps_prj_lock.acquire()
+            # print(mc_id_fps_share)
             mc_reprojection = mc_reprojection_share.get()
             # id_fps_prj_lock.release()
             if mc_reprojection == "enable":

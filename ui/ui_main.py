@@ -15,22 +15,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGraphicsView, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QMenuBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QStackedWidget, QStatusBar, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QGraphicsView, QGridLayout, QHBoxLayout,
+    QHeaderView, QLabel, QLineEdit, QMainWindow,
+    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QStackedWidget, QStatusBar, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1059, 812)
+        MainWindow.resize(1018, 812)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.horizontalLayout_7 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.horizontalLayout_7.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(5, 5, 5, 5)
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.horizontalLayout_2 = QHBoxLayout(self.widget)
@@ -79,21 +79,112 @@ class Ui_MainWindow(object):
         self.container.setObjectName(u"container")
         self.income = QWidget()
         self.income.setObjectName(u"income")
-        self.label = QLabel(self.income)
+        self.verticalLayout_4 = QVBoxLayout(self.income)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.time = QWidget(self.income)
+        self.time.setObjectName(u"time")
+        self.time.setMaximumSize(QSize(16777215, 25))
+        self.horizontalLayout_6 = QHBoxLayout(self.time)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.label = QLabel(self.time)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 10, 54, 16))
-        self.graphicsView = QGraphicsView(self.income)
-        self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setGeometry(QRect(10, 30, 480, 270))
+
+        self.horizontalLayout_6.addWidget(self.label)
+
+        self.label_7 = QLabel(self.time)
+        self.label_7.setObjectName(u"label_7")
+
+        self.horizontalLayout_6.addWidget(self.label_7)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_4.addWidget(self.time)
+
+        self.pannel = QWidget(self.income)
+        self.pannel.setObjectName(u"pannel")
+        self.pannel.setMaximumSize(QSize(16777215, 40))
+        self.horizontalLayout = QHBoxLayout(self.pannel)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.label_3 = QLabel(self.pannel)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setMaximumSize(QSize(80, 16777215))
+        self.label_3.setStyleSheet(u"width:50\n"
+"")
+
+        self.horizontalLayout.addWidget(self.label_3)
+
+        self.label_4 = QLabel(self.pannel)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setMaximumSize(QSize(40, 16777215))
+
+        self.horizontalLayout.addWidget(self.label_4)
+
+        self.changeModeBtn = QPushButton(self.pannel)
+        self.changeModeBtn.setObjectName(u"changeModeBtn")
+        self.changeModeBtn.setMaximumSize(QSize(100, 16777215))
+
+        self.horizontalLayout.addWidget(self.changeModeBtn)
+
+        self.widget_6 = QWidget(self.pannel)
+        self.widget_6.setObjectName(u"widget_6")
+        self.widget_6.setMinimumSize(QSize(146, 0))
+
+        self.horizontalLayout.addWidget(self.widget_6)
+
+        self.recordBtn = QPushButton(self.pannel)
+        self.recordBtn.setObjectName(u"recordBtn")
+        self.recordBtn.setMaximumSize(QSize(100, 16777215))
+
+        self.horizontalLayout.addWidget(self.recordBtn)
+
+        self.recordLight = QLabel(self.pannel)
+        self.recordLight.setObjectName(u"recordLight")
+        self.recordLight.setMaximumSize(QSize(10, 16777215))
+        self.recordLight.setStyleSheet(u"color:red")
+
+        self.horizontalLayout.addWidget(self.recordLight)
+
+        self.recordTime = QLabel(self.pannel)
+        self.recordTime.setObjectName(u"recordTime")
+
+        self.horizontalLayout.addWidget(self.recordTime)
+
+
+        self.verticalLayout_4.addWidget(self.pannel)
+
         self.widget_4 = QWidget(self.income)
         self.widget_4.setObjectName(u"widget_4")
-        self.widget_4.setGeometry(QRect(220, 520, 120, 80))
-        self.graphicsView_2 = QGraphicsView(self.income)
+        self.widget_4.setMaximumSize(QSize(16777215, 350))
+        self.gridLayout = QGridLayout(self.widget_4)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.graphicsView_2 = QGraphicsView(self.widget_4)
         self.graphicsView_2.setObjectName(u"graphicsView_2")
-        self.graphicsView_2.setGeometry(QRect(490, 30, 480, 270))
-        self.graphicsView_3 = QGraphicsView(self.income)
+
+        self.gridLayout.addWidget(self.graphicsView_2, 0, 2, 2, 2)
+
+        self.graphicsView = QGraphicsView(self.widget_4)
+        self.graphicsView.setObjectName(u"graphicsView")
+
+        self.gridLayout.addWidget(self.graphicsView, 1, 1, 1, 1)
+
+        self.graphicsView_3 = QGraphicsView(self.widget_4)
         self.graphicsView_3.setObjectName(u"graphicsView_3")
-        self.graphicsView_3.setGeometry(QRect(10, 300, 480, 270))
+
+        self.gridLayout.addWidget(self.graphicsView_3, 1, 4, 1, 1)
+
+
+        self.verticalLayout_4.addWidget(self.widget_4)
+
+        self.posbox = QWidget(self.income)
+        self.posbox.setObjectName(u"posbox")
+        self.horizontalLayout_8 = QHBoxLayout(self.posbox)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+
+        self.verticalLayout_4.addWidget(self.posbox)
+
         self.container.addWidget(self.income)
         self.record = QWidget()
         self.record.setObjectName(u"record")
@@ -139,7 +230,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 762, 700))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 869, 684))
         self.horizontalLayout_5 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.tableWidget = QTableWidget(self.scrollAreaWidgetContents)
@@ -162,12 +253,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.widget_3)
 
 
-        self.horizontalLayout_7.addWidget(self.widget)
+        self.verticalLayout_3.addWidget(self.widget)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1059, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1018, 26))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -186,7 +277,14 @@ class Ui_MainWindow(object):
         self.p1.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u91c7\u96c6", None))
         self.p2.setText(QCoreApplication.translate("MainWindow", u"\u8fd0\u52a8\u5458\u540d\u5355", None))
         self.p3.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u67e5\u770b\u4e0e\u5bf9\u6bd4", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"\u65f6\u95f4", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\u65f6\u95f4:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"2023\u5e7412\u670810\u65e5  12:30:30", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u5f55\u5236\u72b6\u6001\uff1a", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u81ea\u52a8", None))
+        self.changeModeBtn.setText(QCoreApplication.translate("MainWindow", u"\u5207\u6362\u6210\u624b\u52a8", None))
+        self.recordBtn.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u5f55\u5236", None))
+        self.recordLight.setText(QCoreApplication.translate("MainWindow", u"\u25cf", None))
+        self.recordTime.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u8fd0\u52a8\u5458\u59d3\u540d\uff1a", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.addUserBtn.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u8fd0\u52a8\u5458", None))

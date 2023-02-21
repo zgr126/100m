@@ -20,6 +20,9 @@ import pages.incomeQthread as Qthread
 import pages.userTable as ut
 import utils.gol as gol
 import cv2
+import threading
+import math
+
 # 主页面信号
 class mainSignal(QObject):
     setMainPage= Signal(int)
@@ -27,6 +30,8 @@ main_signal = mainSignal()
 
 class income(QWidget):
     MainSignal= Signal()
+    currentMode = 0 # 当前状态0手动 1 自动
+    recordTime = 0 # 录制时间
     def __init__(self, ui, arg=None):
         super(income, self).__init__(arg)
         self.ui = ui
@@ -47,10 +52,51 @@ class income(QWidget):
         self.ui.graphicsView.setScene(self.scene)  # 把画布添加到窗口
         self.scene2 = QGraphicsScene()  # 创建画布
         self.ui.graphicsView_2.setScene(self.scene2)  # 把画布添加到窗口
-        
         self.scene3 = QGraphicsScene()  # 创建画布
         self.ui.graphicsView_3.setScene(self.scene3)  # 把画布添加到窗口
-        # self.work.connectServer()
+        
+        self.ui.changeModeBtn.clicked.connect(self.changeMode)
+        self.ui.recordBtn.clicked.connect(self.record)
+        self.ui.recordLight.hide()
+    def record(self):
+        # 开始录制
+        if self.recordTime == 0:
+            self.recordTime = time.time()
+            self.ui.recordBtn.setText('停止')
+            self.ui.recordLight.show()
+            self.runTimer()
+            
+        else:
+            if self.timer_online is not None:
+                self.timer_online.cancel()
+            self.recordTime = 0
+            self.ui.recordBtn.setText('开始录制')
+            self.ui.recordLight.hide()
+            self.ui.recordTime.setText('00:00')
+    def runTimer(self):
+        self.timer_online = threading.Timer(0.01, self.recordTimer)
+        self.timer_online.start()
+    def recordTimer(self):
+        now = time.time()
+        t = now - self.recordTime
+        # 最大20秒
+        if self.timer_online is not None:
+            if t>20:
+                self.record()
+        else:
+            return
+        mSe,se = math.modf(t)
+        _,mSe = math.modf(mSe*100)
+        self.ui.recordTime.setText(str(int(se))+':'+str(int(mSe)))
+        self.runTimer()
+    def changeMode(self):
+        if self.currentMode == 1:
+            self.currentMode = 0
+            self.ui.changeModeBtn.setText('切换成自动')
+        else:
+            self.currentMode = 1
+            self.ui.changeModeBtn.setText('切换成手动')
+    # 获取图片并展示到页面
     def getPic(self,img):
         # print('img')
         print('getImg',str(time.time()))

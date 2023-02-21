@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1059</width>
+    <width>1018</width>
     <height>812</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>百米技术测评</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_7">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="leftMargin">
      <number>5</number>
     </property>
@@ -130,65 +130,180 @@
              <number>0</number>
             </property>
             <widget class="QWidget" name="income">
-             <widget class="QLabel" name="label">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>54</width>
-                <height>16</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>时间</string>
-              </property>
-             </widget>
-             <widget class="QGraphicsView" name="graphicsView">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>30</y>
-                <width>480</width>
-                <height>270</height>
-               </rect>
-              </property>
-             </widget>
-             <widget class="QWidget" name="widget_4" native="true">
-              <property name="geometry">
-               <rect>
-                <x>220</x>
-                <y>520</y>
-                <width>120</width>
-                <height>80</height>
-               </rect>
-              </property>
-             </widget>
-             <widget class="QGraphicsView" name="graphicsView_2">
-              <property name="geometry">
-               <rect>
-                <x>490</x>
-                <y>30</y>
-                <width>480</width>
-                <height>270</height>
-               </rect>
-              </property>
-             </widget>
-             <widget class="QGraphicsView" name="graphicsView_3">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>300</y>
-                <width>480</width>
-                <height>270</height>
-               </rect>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QWidget" name="time" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>时间:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_7">
+                   <property name="text">
+                    <string>2023年12月10日  12:30:30</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="pannel" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">width:50
+</string>
+                   </property>
+                   <property name="text">
+                    <string>当前录制状态：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>自动</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="changeModeBtn">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>切换成手动</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_6" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>146</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="recordBtn">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>开始录制</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="recordLight">
+                   <property name="maximumSize">
+                    <size>
+                     <width>10</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:red</string>
+                   </property>
+                   <property name="text">
+                    <string>●</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="recordTime">
+                   <property name="text">
+                    <string>00:00</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_4" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>350</height>
+                 </size>
+                </property>
+                <layout class="QGridLayout" name="gridLayout">
+                 <item row="0" column="2" rowspan="2" colspan="2">
+                  <widget class="QGraphicsView" name="graphicsView_2"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QGraphicsView" name="graphicsView"/>
+                 </item>
+                 <item row="1" column="4">
+                  <widget class="QGraphicsView" name="graphicsView_3"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="posbox" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_8"/>
+               </widget>
+              </item>
+             </layout>
             </widget>
             <widget class="QWidget" name="record"/>
             <widget class="QWidget" name="user">
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QWidget" name="" native="true">
+               <widget class="QWidget" name="widget" native="true">
                 <property name="maximumSize">
                  <size>
                   <width>500</width>
@@ -246,8 +361,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>762</width>
-                   <height>700</height>
+                   <width>869</width>
+                   <height>684</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -276,7 +391,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1059</width>
+     <width>1018</width>
      <height>26</height>
     </rect>
    </property>
