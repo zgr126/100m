@@ -32,7 +32,7 @@ class Page(QWidget):
         l = QLabel('百米基础属性')
         self.layout.addWidget(l)
         List9 = cm.List9(self.data)
-
+        self.List9 = List9
         self.table = QTableWidget(2, 8)  # 3 行 5 列的表格
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 自适应宽度
         self.table.setMaximumHeight(120)
@@ -56,39 +56,71 @@ class Page(QWidget):
         #     'title':'水平面投影角加速度',
         #     'yAxis':['加速度','rad/s²']}
         # # self.layout.addStretch()
-        self.setTable(List9,0)
+        self.contrastData = None
+        self.formWid = None
+        self.setTable()
         
-    def setTable(self, List9,userIndex):
-        print(List9)
+    def setTable(self):
+        # print(List9)
+        List9 = self.List9
         # table1
-        self.table.setItem(userIndex,1,QTableWidgetItem(str(round(List9['AvgSpeed'],2))))
-        self.table.setItem(userIndex,2,QTableWidgetItem(str(round(List9['AvgAngleNormal'],2))))
-        self.table.setItem(userIndex,3,QTableWidgetItem(str(round(List9['StepSize'],2))))
-        self.table.setItem(userIndex,4,QTableWidgetItem(str(round(List9['StepSize_height'],2))))
-        self.table.setItem(userIndex,5,QTableWidgetItem(str(round(List9['StepNum'],2))))
-        self.table.setItem(userIndex,6,QTableWidgetItem(str(round(List9['AvgVertCenter'],2))))
-        self.table.setItem(userIndex,7,QTableWidgetItem(str(round(List9['AvgLevelCenter'],2))))
+        self.table.setItem(0,1,QTableWidgetItem(str(round(List9['AvgSpeed'],2))))
+        self.table.setItem(0,2,QTableWidgetItem(str(round(List9['AvgAngleNormal'],2))))
+        self.table.setItem(0,3,QTableWidgetItem(str(round(List9['StepSize'],2))))
+        self.table.setItem(0,4,QTableWidgetItem(str(round(List9['StepSize_height'],2))))
+        self.table.setItem(0,5,QTableWidgetItem(str(round(List9['StepNum'],2))))
+        self.table.setItem(0,6,QTableWidgetItem(str(round(List9['AvgVertCenter'],2))))
+        self.table.setItem(0,7,QTableWidgetItem(str(round(List9['AvgLevelCenter'],2))))
+
+        
+        if self.contrastData is not None:
+            cList = self.contrastData
+            # table1
+            self.table.setItem(1,1,QTableWidgetItem(str(round(cList['AvgSpeed'],2))))
+            self.table.setItem(1,2,QTableWidgetItem(str(round(cList['AvgAngleNormal'],2))))
+            self.table.setItem(1,3,QTableWidgetItem(str(round(cList['StepSize'],2))))
+            self.table.setItem(1,4,QTableWidgetItem(str(round(cList['StepSize_height'],2))))
+            self.table.setItem(1,5,QTableWidgetItem(str(round(cList['StepNum'],2))))
+            self.table.setItem(1,6,QTableWidgetItem(str(round(cList['AvgVertCenter'],2))))
+            self.table.setItem(1,7,QTableWidgetItem(str(round(cList['AvgLevelCenter'],2))))
+            # table2
+            for index, pitem in enumerate(cList['PerTime'][:10]):
+                self.table2.setItem(1,index+1,QTableWidgetItem(str(round(pitem,2))))
         # table2
-        for index, pitem in enumerate(List9['PerTime']):
-            self.table2.setItem(userIndex,index+1,QTableWidgetItem(str(round(pitem,2))))
+        for index, pitem in enumerate(List9['PerTime'][:10]):
+            self.table2.setItem(0,index+1,QTableWidgetItem(str(round(pitem,2))))
         # picList
         a = self.layout.findChild(QScrollArea, 'formArea')
         if a != None:
             self.layout.removeWidget(a)
 
-        option1 = [{'data':List9['PerSpeed'],
+        # 制造对比数据
+        d1 = None
+        d2 = None
+        if self.contrastData is not None:
+            cList = self.contrastData
+            d1 = cList['PerSpeed'][:10]
+            d2 = [cList['LandLF'],cList['LandRT'],cList['RiseLF'],cList['RiseRT'],
+            cList['LFTime'],cList['RTTime'],cList['BufferLF'],cList['BufferRT'],cList['KickLF'],cList['KickRT']]
+        option1 = [{'data':List9['PerSpeed'][:10],'data2': d1,
             'xData': ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
             'title':'运动员在每10米分段平均速度',
             'type': 'line',
             'yAxis':['速度','m/s']},
             {'data':[List9['LandLF'],List9['LandRT'],List9['RiseLF'],List9['RiseRT'],
-            List9['LFTime'],List9['RTTime'],List9['BufferLF'],List9['BufferRT'],List9['KickLF'],List9['KickRT']],
+            List9['LFTime'],List9['RTTime'],List9['BufferLF'],List9['BufferRT'],List9['KickLF'],List9['KickRT']],'data2':d2,
             'xData': ['左着地', '右着地', '左腾空', '右腾空', '左单步', '右单步', '左缓冲', '右缓冲', '左伸蹬', '右伸蹬'],
-            'title':'运动员在每10米分段平均速度',
+            'title':'运动员左右脚数据',
             'type': 'bar',
             'yAxis':['时间','s']},]
+        
+        if self.formWid is not None:
+            self.formWid.close()
         self.formWid = formScrollArea(option1)
         self.layout.addWidget(self.formWid)
+    def setContrast(self,data):
+        self.contrastData = data
+        self.setTable()
         # self.layout.wid
 def formScrollArea(options):
     listW = setPage(options)
@@ -111,6 +143,7 @@ def setPage(options):
     #     })
     for i in options:
         w = Window(i)
+        w.show()
         layout.addWidget(w)
     
     container_layout = QVBoxLayout()
@@ -127,12 +160,12 @@ class Window(QWidget):
     def __init__(self, options):
         super().__init__()
         # 设置下尺寸
-        self.resize(400,300)
+        self.resize(600,300)
         # 添加 PlotWidget 控件
         self.plotWidget_ted = pg.PlotWidget(self)
         # 设置该控件尺寸和相对位置
-        self.plotWidget_ted.setGeometry(QtCore.QRect(0,0,400,300))
-        self.setFixedWidth(400)
+        self.plotWidget_ted.setGeometry(QtCore.QRect(0,0,600,300))
+        self.setFixedWidth(600)
         self.setFixedHeight(300)
         self.setStyleSheet('''
             QWidget {
@@ -159,8 +192,22 @@ class Window(QWidget):
             xdict = dict(enumerate(options['xData']))
             x = list(xdict.values())
             ticks = [(i, j) for i, j in zip(range(10), options['xData'])]
-            print(ticks)
-            self.curve1 = self.plotWidget_ted.plot(options['data'][:10], name="mode1")
+            if options['type'] == 'bar':
+                barItem = pg.BarGraphItem(x=range(len(options['xData'])),height=options['data'],width=0.2,brush=(50,50,50))
+                self.plotWidget_ted.addItem(barItem)
+                data = np.arange(len(options['xData']))#range(len(options['xData']))
+                if options['data2'] is not None:
+                    barItem2 = pg.BarGraphItem(x=data+0.3, height=options['data2'],width=0.2,brush=(50,50,224))
+                    self.plotWidget_ted.addItem(barItem2)
+                self.plotWidget_ted.enableAutoRange()
+            else:
+
+                self.curve1 = self.plotWidget_ted.plot(options['data'][:10], name="mode1")
+                if options['data2'] is not None:
+                    self.curve1 = self.plotWidget_ted.plot(options['data2'][:10], name="mode2")
+            
+            
+
             xax = self.plotWidget_ted.getAxis('bottom')
             xax.setTicks([ticks])
             # self.plotWidget_ted.bar
@@ -176,5 +223,78 @@ class Window(QWidget):
         # self.ui.graphicsView.show()  # 调用show方法呈现图形
         else:
             self.curve1 = self.plotWidget_ted.plot(options['data'], name="mode1")
+            
         
         
+# class PyQtGraphHistWidget(QtWidgets.QWidget):
+#     def __init__(self):
+#         super().__init__()
+ 
+#         self.init_data()
+#         self.init_ui()
+#     def init_data(self):
+#         self.color_bar = (107,200,224)
+#         pass
+#     def init_ui(self):
+#         self.title_label = QtWidgets.QLabel('直方图')
+#         self.title_label.setAlignment(Qt.AlignCenter)
+#         xax = RotateAxisItem(orientation='bottom')
+#         xax.setHeight(h=80)
+#         self.pw = pg.PlotWidget(axisItems={'bottom': xax})
+#         self.pw.setMouseEnabled(x=True, y=False)
+#         # self.pw.enableAutoRange(x=False,y=True)
+#         self.pw.setAutoVisible(x=False, y=True)
+#         layout = QtWidgets.QVBoxLayout()
+#         layout.addWidget(self.title_label)
+#         layout.addWidget(self.pw)
+#         self.setLayout(layout)
+#         pass
+#     def set_data(self,data:Dict[str,Any]):
+#         title_str = data['title_str']
+#         x = data['x']
+#         y = data['y']
+#         y_name = data['y_name']
+#         xTick = [data['xTick']]
+ 
+#         self.y_datas = y
+#         self.x_data = xTick
+#         self.x_Tick = data['xTick']
+#         self.y_name = y_name
+ 
+#         self.title_label.setText(title_str)
+#         self.pw.setLabel('left', y_name)
+#         xax = self.pw.getAxis('bottom')
+#         xax.setTicks(xTick)
+ 
+#         barItem = pg.BarGraphItem(x=x,height=y,width=0.8,brush=self.color_bar)
+#         self.pw.addItem(barItem)
+ 
+#         self.vLine = pg.InfiniteLine(angle=90, movable=False)
+#         self.hLine = pg.InfiniteLine(angle=0, movable=False)
+#         self.label = pg.TextItem()
+ 
+#         self.pw.addItem(self.vLine, ignoreBounds=True)
+#         self.pw.addItem(self.hLine, ignoreBounds=True)
+#         self.pw.addItem(self.label, ignoreBounds=True)
+#         self.vb = self.pw.getViewBox()
+#         self.proxy = pg.SignalProxy(self.pw.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+#         self.pw.enableAutoRange()
+#         pass
+#     def mouseMoved(self,evt):
+#         pos = evt[0]
+#         if self.pw.sceneBoundingRect().contains(pos):
+#             mousePoint = self.vb.mapSceneToView(pos)
+#             index = int(mousePoint.x())
+#             if index >= 0 and index < len(self.y_datas):
+#                 x_str = str(self.x_Tick[index][1])
+ 
+#                 y_str_html = ''
+#                 y_str = str(self.y_datas[index])
+#                 y_str_html += '&nbsp;' + y_str
+#                 html_str = '<p style="color:black;font-size:18px;font-weight:bold;">&nbsp;' + x_str +'<br/>&nbsp;'+y_str_html+ '</p>'
+#                 self.label.setHtml(html_str)
+#                 self.label.setPos(mousePoint.x(), mousePoint.y())
+#             self.vLine.setPos(mousePoint.x())
+#             self.hLine.setPos(mousePoint.y())
+#         pass
+#     pass

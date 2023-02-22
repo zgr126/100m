@@ -187,15 +187,15 @@ class Ui_Form(object):
         self.horizontalLayout_29 = QHBoxLayout(self.widget_26)
         self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
         self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_29 = QPushButton(self.widget_26)
-        self.pushButton_29.setObjectName(u"pushButton_29")
+        self.contrastBtn = QPushButton(self.widget_26)
+        self.contrastBtn.setObjectName(u"contrastBtn")
 
-        self.horizontalLayout_29.addWidget(self.pushButton_29)
+        self.horizontalLayout_29.addWidget(self.contrastBtn)
 
-        self.label_80 = QLabel(self.widget_26)
-        self.label_80.setObjectName(u"label_80")
+        self.contrastLabel = QLabel(self.widget_26)
+        self.contrastLabel.setObjectName(u"contrastLabel")
 
-        self.horizontalLayout_29.addWidget(self.label_80)
+        self.horizontalLayout_29.addWidget(self.contrastLabel)
 
         self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -206,8 +206,6 @@ class Ui_Form(object):
 
         self.details = QWidget(self.page2)
         self.details.setObjectName(u"details")
-        self.layout2 = QVBoxLayout(self.details)
-        self.layout2.setObjectName(u"layout2")
 
         self.verticalLayout_20.addWidget(self.details)
 
@@ -261,7 +259,7 @@ class Ui_Form(object):
         self.t8.setText(QCoreApplication.translate("Form", u"\u5e73\u9762\u6295\u5f71\u89d2", None))
         self.t9.setText(QCoreApplication.translate("Form", u"\u6280\u672f\u6307\u6807", None))
         self.t10.setText(QCoreApplication.translate("Form", u"\u89c6\u9891\u56de\u653e", None))
-        self.pushButton_29.setText(QCoreApplication.translate("Form", u"\u5bf9\u6bd4\u9879\u76ee", None))
-        self.label_80.setText(QCoreApplication.translate("Form", u"\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34\u6c34", None))
+        self.contrastBtn.setText(QCoreApplication.translate("Form", u"\u5bf9\u6bd4\u9879\u76ee", None))
+        self.contrastLabel.setText("")
     # retranslateUi
 

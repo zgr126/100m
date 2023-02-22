@@ -291,16 +291,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="pushButton_29">
+                 <widget class="QPushButton" name="contrastBtn">
                   <property name="text">
                    <string>对比项目</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_80">
+                 <widget class="QLabel" name="contrastLabel">
                   <property name="text">
-                   <string>水水水水水水水水水水水水水水水水水水水</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -321,9 +321,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="details" native="true">
-               <layout class="QVBoxLayout" name="layout2"/>
-              </widget>
+              <widget class="QWidget" name="details" native="true"/>
              </item>
             </layout>
            </widget>

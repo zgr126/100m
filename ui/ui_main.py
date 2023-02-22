@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.time = QWidget(self.income)
         self.time.setObjectName(u"time")
-        self.time.setMaximumSize(QSize(16777215, 25))
+        self.time.setMaximumSize(QSize(16777215, 1))
         self.horizontalLayout_6 = QHBoxLayout(self.time)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label = QLabel(self.time)

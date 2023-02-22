@@ -38,10 +38,12 @@ class TableWidget(QWidget):
     data = []
     allDataLen = 0
     currentPage = 1
-    def __init__(self, *args, **kwargs):
+    def __init__(self, _type,*args, **kwargs):
         super(TableWidget, self).__init__(*args, **kwargs)
+        self._type = _type
         self.__init_ui()
         self.refrushPage()
+        
     def __init_ui(self):
         style_sheet = """
             QTableWidget {
@@ -165,11 +167,15 @@ class TableWidget(QWidget):
             self.tableWidget.setItem(i,2,s3)
             btnBox = QWidget()
             btnBoxLayout = QHBoxLayout(btnBox)
-            btn = QPushButton('查看')
+            showText = '查看'
+            if self._type is not None:
+                showText = self._type
+            btn = QPushButton(showText)
             btn2 = QPushButton('删除')
             btnBoxLayout.setContentsMargins(0,0,0,0)
             btnBoxLayout.addWidget(btn)
-            btnBoxLayout.addWidget(btn2)
+            if self._type is None:
+                btnBoxLayout.addWidget(btn2)
             btn2.clicked.connect(t2(v))
             btn.clicked.connect(t(v))
             self.tableWidget.setCellWidget(i,3, btnBox)
@@ -209,14 +215,15 @@ class TableWidget(QWidget):
         return name
 class MainWindow(QWidget):
     view_signal = Signal(list)
-    def __init__(self):
+    def __init__(self, _type):
         super(MainWindow, self).__init__()
+        self._type = _type
         self.__init_ui()
-
+        
     def __init_ui(self):
         self.resize(500, 250)
         self.setWindowTitle("QTableWidget加页码控制器")
-        self.table_widget = TableWidget()  # 实例化表格
+        self.table_widget = TableWidget(self._type)  # 实例化表格
         self.table_widget.setPageController(10)  # 表格设置页码控制
         self.table_widget.control_signal.connect(self.page_controller)
         # self.setCentralWidget(self.table_widget)

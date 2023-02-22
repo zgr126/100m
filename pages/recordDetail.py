@@ -18,6 +18,8 @@ import pyqtgraph as pg
 import calc.ReadData as cR
 import pages.recordDetailData as rData
 import pages.recordRely as rRely
+from .record import MainWindow
+import calc.main2 as cm
 
 class userDetails(QWidget):
     userDetailsSignal = Signal(int)
@@ -47,10 +49,28 @@ class userDetails(QWidget):
         self.ui.t10.clicked.connect(lambda: self.changePage(10))
         
         # self.detailsPage = self.ui.details #9  10 详情页
-        # self.layout2 =  QVBoxLayout()
-        # self.ui.details.setLayout(self.layout2)
+        self.layout2 =  QVBoxLayout()
+        self.ui.details.setLayout(self.layout2)
+
         self.ui.stackedWidget.setCurrentIndex(0)
         self.changePage(9)
+        self.ui.contrastBtn.clicked.connect(self.contrastDialog)
+    def contrastDialog(self):
+        win = MainWindow('查看')
+        self.contrastWidget = win
+        self.contrastWidget.show()
+        self.contrastWidget.setWindowModality(Qt.ApplicationModal)
+        self.contrastWidget.setFixedSize(800, 500)
+        win.view_signal.connect(self.selectContrast)
+        pass
+    def selectContrast(self, l):
+        self.ui.contrastLabel.setText('姓名：{}  时间：{}  项目说明：{}'.format(l[0],l[2],l[1]))
+        self.contrastData = cm.List9(cR.ReadData())
+        self.setContrastData()
+        self.contrastWidget.close()
+    def setContrastData(self):
+        # self.childPageData = cR.ReadData()
+        self.rData.setContrast(self.contrastData)
     def removePage(self):
         # 移除layout
         self.pr.setParent(None)
@@ -60,8 +80,6 @@ class userDetails(QWidget):
         self.pr = pr.Page(page, self.childPageData)
         self.layout.addWidget(self.pr)
     def changePage(self, value):
-        s = QWidget()
-        print(value)
         if value == 9 or value == 10:
             self.ui.stackedWidget.setCurrentIndex(1)
             # self.layout2 =  QVBoxLayout()
@@ -72,9 +90,9 @@ class userDetails(QWidget):
             # self.layout2.addWidget(self.table)
             # self.ui.layout2.addWidget(self.table)
             # print(self.layout2.parent())
-            hasChild = len(self.ui.layout2.children()) != 0
+            hasChild = len(self.layout2.children()) != 0
             if hasChild:
-                p = self.ui.layout2.children()[0]
+                p = self.layout2.children()[0]
                 p.setParent(None)
                 self.detailsPage.removeWidget(p)
             if value == 9:
@@ -83,9 +101,11 @@ class userDetails(QWidget):
                 # self.layout2.addWidget(self.detailsp)
                 # print(self.layout2.children())
                 # print(self.layout2.parentWidget())
-                self.ui.layout2.addWidget(rData.Page(self.childPageData))
+                self.rData = rData.Page(self.childPageData)
+                self.layout2.addWidget(self.rData)
             if value == 10:
-                self.layout2.addWidget(rRely.Page(self.childPageData))
+                self.rRely = rRely.Page(self.childPageData)
+                self.layout2.addWidget(rRely)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
             self.removePage()

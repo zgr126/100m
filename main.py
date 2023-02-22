@@ -63,8 +63,9 @@ class MainWindow(QMainWindow):
         self.ui.p2.clicked.connect(lambda:self.leftClick(2))
         self.ui.p3.clicked.connect(lambda:self.leftClick(1))
         self.ui.show()
-        self.leftClick(0)
-        self.income = income.income(self.ui)
+        self.show()
+        # self.leftClick(3)
+        # self.income = income.income(self.ui)
     # 记录详情页面
     def toDetail(self, record):
         print(record)
@@ -77,8 +78,7 @@ class MainWindow(QMainWindow):
         # w.view_signal.connect(self.toDetail)
         # s.setCurrentIndex
     def show(self):
-        self.ui.show()
-        # self.toDetail(['s','s','s','s','s','s','s','s','s'])
+        self.toDetail(['s','s','s','s','s','s','s','s','s'])
     def leftClick(self, p):
         self.currentPage = p
         print(p)
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
             # 设置record
             b = QVBoxLayout()
             self.ui.record.setLayout(b)
-            w = record.MainWindow()
+            w = record.MainWindow(None)
             b.addWidget(w)
             w.view_signal.connect(self.toDetail)
        

@@ -58,6 +58,8 @@ class income(QWidget):
         self.ui.changeModeBtn.clicked.connect(self.changeMode)
         self.ui.recordBtn.clicked.connect(self.record)
         self.ui.recordLight.hide()
+    def __del__(self):
+        self.work_thread.destroyed()
     def record(self):
         # 开始录制
         if self.recordTime == 0:
