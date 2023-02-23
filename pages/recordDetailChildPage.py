@@ -43,19 +43,19 @@ class Page(QWidget):
         
         self.pageIndex = page
         if page == 4:
-            self.pageConifg = self.p4
+            self.pageConfig = self.p4
         if page == 5:
-            self.pageConifg = self.p5
+            self.pageConfig = self.p5
         if page == 6:
-            self.pageConifg = self.p6
+            self.pageConfig = self.p6
         if page == 7:
-            self.pageConifg = self.p7
+            self.pageConfig = self.p7
         if page == 8:
-            self.pageConifg = self.p8
+            self.pageConfig = self.p8
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
-        self.layout.addWidget(self.addBtns(self.pageConifg))
+        self.layout.addWidget(self.addBtns(self.pageConfig))
         
         # 展示区域
         self.qscrollarea = QtWidgets.QScrollArea()

@@ -31,6 +31,12 @@
      <layout class="QHBoxLayout" name="horizontalLayout_30">
       <item>
        <widget class="QWidget" name="widget_23" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>160</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>160</width>

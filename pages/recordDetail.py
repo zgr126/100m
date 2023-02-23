@@ -90,19 +90,24 @@ class userDetails(QWidget):
             # self.layout2.addWidget(self.table)
             # self.ui.layout2.addWidget(self.table)
             # print(self.layout2.parent())
-            hasChild = len(self.layout2.children()) != 0
-            if hasChild:
-                p = self.layout2.children()[0]
-                p.setParent(None)
-                self.detailsPage.removeWidget(p)
+            # hasChild = len(self.layout2.children()) != 0
+            # if hasChild:
+            #     p = self.layout2.children()[0]
+            #     p.setParent(None)
+            #     self.detailsPage.removeWidget(p)
+            self.layout2 =  QHBoxLayout()
+            self.ui.details.setLayout(self.layout2)
             if value == 9:
                 # self.detailsp = rData.Page(self.childPageData)
                 # print(self.ui.details)
-                # self.layout2.addWidget(self.detailsp)
-                # print(self.layout2.children())
-                # print(self.layout2.parentWidget())
-                self.rData = rData.Page(self.childPageData)
-                self.layout2.addWidget(self.rData)
+                # self.self.layout2.addWidget(self.detailsp)
+                # print(self.self.layout2.children())
+                # print(self.self.layout2.parentWidget())
+                # self.rData = 
+                # pr.Page(5, self.childPageData)#
+                _rData = rData.Page(self.childPageData)
+                self.layout2.addWidget(_rData)
+                pass
             if value == 10:
                 self.rRely = rRely.Page(self.childPageData)
                 self.layout2.addWidget(rRely)

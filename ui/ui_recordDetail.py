@@ -33,6 +33,7 @@ class Ui_Form(object):
         self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
         self.widget_23 = QWidget(self.widget_22)
         self.widget_23.setObjectName(u"widget_23")
+        self.widget_23.setMinimumSize(QSize(160, 0))
         self.widget_23.setMaximumSize(QSize(160, 16777215))
         self.widget_23.setStyleSheet(u"background:rgb(229, 229, 229);\n"
 "padding:5;")
