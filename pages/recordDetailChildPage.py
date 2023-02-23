@@ -178,6 +178,7 @@ class Window(QWidget):
         title = options['title']
         # self.plotWidget_ted.setYRange(-1,1)
         self.plotWidget_ted.setLabel("left",options['yAxis'][0],units=options['yAxis'][1])
+        self.plotWidget_ted.setLabel("bottom",units='帧（每秒30）')
         self.plotWidget_ted.setTitle(title)
         self.plotWidget_ted.setBackground((255, 255, 255))
         # self.plotWidget_ted.setConfigOption('WheelSpin', False)

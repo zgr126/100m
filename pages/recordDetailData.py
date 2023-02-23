@@ -76,6 +76,7 @@ class Page(QWidget):
         if self.contrastData is not None:
             cList = self.contrastData
             # table1
+            self.table.setItem(1,0,QTableWidgetItem('对比项目'))
             self.table.setItem(1,1,QTableWidgetItem(str(round(cList['AvgSpeed'],2))))
             self.table.setItem(1,2,QTableWidgetItem(str(round(cList['AvgAngleNormal'],2))))
             self.table.setItem(1,3,QTableWidgetItem(str(round(cList['StepSize'],2))))
@@ -84,6 +85,7 @@ class Page(QWidget):
             self.table.setItem(1,6,QTableWidgetItem(str(round(cList['AvgVertCenter'],2))))
             self.table.setItem(1,7,QTableWidgetItem(str(round(cList['AvgLevelCenter'],2))))
             # table2
+            self.table2.setItem(1,0,QTableWidgetItem('对比项目'))
             for index, pitem in enumerate(cList['PerTime'][:10]):
                 self.table2.setItem(1,index+1,QTableWidgetItem(str(round(pitem,2))))
         # table2
@@ -92,6 +94,7 @@ class Page(QWidget):
         # picList
         a = self.layout.findChild(QScrollArea, 'formArea')
         if a != None:
+            a.setParent(None)
             self.layout.removeWidget(a)
 
         # 制造对比数据
@@ -99,7 +102,7 @@ class Page(QWidget):
         d2 = None
         if self.contrastData is not None:
             cList = self.contrastData
-            d1 = cList['PerSpeed'][:10]
+            d1 = cList['PerSpeed'][1:11]
             d2 = [cList['LandLF'],cList['LandRT'],cList['RiseLF'],cList['RiseRT'],
             cList['LFTime'],cList['RTTime'],cList['BufferLF'],cList['BufferRT'],cList['KickLF'],cList['KickRT']]
         option1 = [{'data':List9['PerSpeed'][:10],'data2': d1,
@@ -143,7 +146,6 @@ def setPage(options):
     #     })
     for i in options:
         w = Window(i)
-        w.show()
         layout.addWidget(w)
     
     container_layout = QVBoxLayout()
@@ -201,10 +203,12 @@ class Window(QWidget):
                     self.plotWidget_ted.addItem(barItem2)
                 self.plotWidget_ted.enableAutoRange()
             else:
-
-                self.curve1 = self.plotWidget_ted.plot(options['data'][:10], name="mode1")
+                pen = pg.mkPen(color=(50, 50, 50))
+                self.curve1 = self.plotWidget_ted.plot(options['data'], name="mode1", pen=pen)
                 if options['data2'] is not None:
-                    self.curve1 = self.plotWidget_ted.plot(options['data2'][:10], name="mode2")
+                    # i = pg.PlotItem(brush=(50,50,224))
+                    pen = pg.mkPen(color=(50, 50, 224))
+                    self.plotWidget_ted.plot(options['data2'], name="mode1", pen=pen)
             
             
 

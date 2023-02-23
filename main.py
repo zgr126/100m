@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
         self.ui.show()
         self.show()
         # self.leftClick(3)
-        # self.income = income.income(self.ui)
+        self.income = income.income(self.ui)
     # 记录详情页面
     def toDetail(self, record):
         print(record)

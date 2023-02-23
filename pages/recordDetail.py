@@ -51,6 +51,7 @@ class userDetails(QWidget):
         # self.detailsPage = self.ui.details #9  10 详情页
         self.layout2 =  QVBoxLayout()
         self.ui.details.setLayout(self.layout2)
+        self.rData = rData.Page(self.childPageData)
 
         self.ui.stackedWidget.setCurrentIndex(0)
         self.changePage(9)
@@ -58,9 +59,10 @@ class userDetails(QWidget):
     def contrastDialog(self):
         win = MainWindow('查看')
         self.contrastWidget = win
-        self.contrastWidget.show()
+        
         self.contrastWidget.setWindowModality(Qt.ApplicationModal)
         self.contrastWidget.setFixedSize(800, 500)
+        self.contrastWidget.show()
         win.view_signal.connect(self.selectContrast)
         pass
     def selectContrast(self, l):
@@ -82,6 +84,8 @@ class userDetails(QWidget):
     def changePage(self, value):
         if value == 9 or value == 10:
             self.ui.stackedWidget.setCurrentIndex(1)
+            self.rData.setParent(None)
+            self.layout.removeWidget(self.rData)
             # self.layout2 =  QVBoxLayout()
             # self.ui.details.setLayout(self.layout2)
             # self.table = QTableWidget(3, 4)  # 3 行 5 列的表格
@@ -95,8 +99,8 @@ class userDetails(QWidget):
             #     p = self.layout2.children()[0]
             #     p.setParent(None)
             #     self.detailsPage.removeWidget(p)
-            self.layout2 =  QHBoxLayout()
-            self.ui.details.setLayout(self.layout2)
+            # self.layout2 =  QHBoxLayout()
+            # self.ui.details.setLayout(self.layout2)
             if value == 9:
                 # self.detailsp = rData.Page(self.childPageData)
                 # print(self.ui.details)
@@ -105,12 +109,12 @@ class userDetails(QWidget):
                 # print(self.self.layout2.parentWidget())
                 # self.rData = 
                 # pr.Page(5, self.childPageData)#
-                _rData = rData.Page(self.childPageData)
-                self.layout2.addWidget(_rData)
+                self.rData = rData.Page(self.childPageData)
+                self.layout2.addWidget(self.rData)
                 pass
             if value == 10:
-                self.rRely = rRely.Page(self.childPageData)
-                self.layout2.addWidget(rRely)
+                self.rData = rRely.Page(self.childPageData)
+                self.layout2.addWidget(self.rData)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
             self.removePage()

@@ -9,6 +9,7 @@ from turbojpeg import TurboJPEG, TJPF_BGR
 import ctypes, os, copy
 
 server_ip = "192.168.123.146"
+server_ip = "192.168.123.68"
 host_ip = "192.168.123.15"
 communication_port = 6000
 
